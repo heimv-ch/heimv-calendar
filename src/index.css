@@ -1,0 +1,285 @@
+@keyframes fadein {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+.calendar {
+	position: relative;
+	container: calendar / inline-size;
+
+	.calendar-nav {
+		display: flex;
+		justify-content: space-between;
+		height: 3em;
+
+		.pages {
+			display: flex;
+			justify-content: center;
+
+			button {
+				display: block;
+				flex-grow: 1;
+				text-align: center;
+				background: transparent;
+				border: none;
+				font-weight: bold;
+				line-height: 1em;
+				height: 100%;
+				padding: 0.75em;
+				width: 3em;
+
+				& > svg {
+					max-height: 100%;
+					max-width: 100%;
+				}
+			}
+		}
+
+		.label {
+			font-size: 2em;
+		}
+
+		.actions {
+			justify-content: flex-start;
+		}
+
+		.views {
+			justify-content: flex-end;
+		}
+
+		.views,
+		.actions {
+			width: 20%;
+			font-size: 1rem;
+			display: flex;
+			align-items: center;
+
+			button {
+				padding: 0.5rem;
+				background: none;
+				border: none;
+				opacity: 0.25;
+				height: 100%;
+				width: 2.25em;
+
+				&.active {
+					opacity: 1;
+				}
+
+				& > svg {
+					height: 100%;
+					max-height: 100%;
+					max-width: 100%;
+				}
+			}
+		}
+	}
+
+	.year-calendar {
+		.months {
+			margin: 1em 0;
+			position: relative;
+			overflow-x: scroll;
+		}
+
+		.month {
+			display: grid;
+			grid-template-columns: minmax(8rem, auto) repeat(31, minmax(1.5rem, 2rem));
+			gap: 1px;
+			margin-bottom: 1px;
+		}
+
+		.day-of-month {
+			text-align: center;
+			font-weight: bold;
+		}
+
+		.month .occupancy-popover {
+			transform: translate(-43%, 2.55em);
+		}
+
+		.month:nth-last-child(-n + 6) {
+			.occupancy-popover {
+				transform: translate(-43%, -105%);
+			}
+		}
+	}
+
+	.months-calendar {
+		--min-month-width: 15rem;
+
+		.months {
+			padding: 1em 0;
+			position: relative;
+			display: grid;
+			gap: 1.5em;
+			grid-template-columns: repeat(auto-fill, minmax(var(--min-month-width), 1fr));
+			grid-auto-rows: auto auto;
+		}
+
+		.month {
+			box-sizing: border-box;
+
+			header > h3 {
+				font-weight: bold;
+				font-size: 1.25em;
+				text-align: center;
+				padding-bottom: 1em;
+				margin: 0;
+			}
+
+			.weekdays {
+				font-weight: bold;
+				text-align: center;
+				gap: 0.25em;
+				font-size: 0.75em;
+				display: grid;
+				grid-template-columns: repeat(7, 1fr);
+			}
+
+			.dates {
+				display: grid;
+				grid-template-columns: repeat(7, 1fr);
+				grid-template-rows: repeat(6, 1fr);
+				gap: 1px;
+			}
+		}
+
+		.date {
+			display: grid;
+			place-content: center;
+			aspect-ratio: 1 / 1;
+			padding: 0;
+		}
+
+		.date .occupancy-popover {
+			transform: translate(-43%, -100%);
+		}
+
+		.date:nth-child(-n + 14) {
+			.occupancy-popover {
+				transform: translate(-43%, 3em);
+			}
+		}
+	}
+
+	.date.today {
+		position: relative;
+
+		&::after {
+			display: block;
+			border: 0.4em solid rgba(255, 0, 0, 0.65);
+			content: "";
+			width: 120%;
+			top: 50%;
+			left: 50%;
+			position: absolute;
+			aspect-ratio: 1;
+			border-radius: 100%;
+			z-index: 3;
+			margin-top: calc(-50% + -0.25em);
+			margin-left: calc(-50% + -0.25em);
+			box-sizing: border-box;
+			pointer-events: none;
+		}
+	}
+
+	.date-action {
+		background: transparent;
+		border: none;
+		display: block;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		color: black;
+		position: relative;
+		cursor: pointer;
+
+		&.highlighted {
+			/* outline: 1px solid $primary;
+      background-color: $primary; */
+
+			.label {
+				font-weight: bold;
+				color: white;
+			}
+
+			.occupancy-calendar-date svg {
+				opacity: 0.7;
+			}
+		}
+
+		&:disabled,
+		&[aria-disabled="true"] {
+			cursor: default;
+
+			.label {
+				color: #777;
+			}
+		}
+	}
+
+	.occupancy-calendar-date {
+		&:hover svg {
+			opacity: 0.8;
+		}
+
+		.label {
+			display: block;
+			position: absolute;
+			top: 50%;
+			margin-top: -0.5em;
+			line-height: 1em;
+			z-index: 2;
+			width: 100%;
+			text-align: center;
+			opacity: 0.8;
+			cursor: inherit;
+		}
+
+		&.has-occupancies .label {
+			font-weight: bold;
+		}
+
+		svg {
+			cursor: inherit;
+			overflow: clip;
+
+			rect,
+			polygon {
+				animation: fadein 500ms;
+			}
+
+			rect:not([fill]),
+			polygon:not([fill]) {
+				fill: transparent;
+			}
+		}
+
+		&:focus-visible .occupancy-popover,
+		&:hover .occupancy-popover {
+			display: block;
+		}
+	}
+
+	.occupancy-popover {
+		position: absolute;
+		z-index: 10;
+		display: none;
+		width: max-content;
+		text-align: start;
+		max-width: min(90vw, 20rem);
+		padding: 0.5em;
+
+		ul.occupancies {
+			& > li + li {
+				margin-top: 2em;
+			}
+		}
+	}
+}

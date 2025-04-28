@@ -7,6 +7,13 @@
 	"features": {
 		"ghcr.io/joshuanianji/devcontainer-features/mount-pnpm-store:1": {},
 		"ghcr.io/devcontainers-extra/features/pnpm:2": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"biomejs.biome"
+			]
+		}
 	}
 
 	// Features to add to the dev container. More info: https://containers.dev/features.

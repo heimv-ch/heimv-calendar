@@ -1,16 +1,18 @@
 import { eachDayOfInterval, endOfMonth, format, formatISO, getDay, parseISO, startOfMonth } from "date-fns";
 import { CalendarDate } from "./CalendarDate";
-import type { OccupancySlot } from "../model/occupancy";
+import type { Occupancy, OccupancySlot } from "../model/occupancy";
 
 interface CalendarMonthProps {
 	dateString: string;
 	occupancies?: Map<string, OccupancySlot>;
+	onDateClick?: (date: Date) => void;
+	onOccupancyClick?: (occupancy: Occupancy) => void;
 }
 
 // Handle localization
 const weekdayShortNames = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"] as const;
 
-export function CalendarMonth({ dateString, occupancies }: CalendarMonthProps) {
+export function CalendarMonth({ dateString, occupancies, onDateClick, onOccupancyClick }: CalendarMonthProps) {
 	const date = startOfMonth(parseISO(dateString));
 	const monthStartsAfter = (getDay(date) + 6) % 7;
 
@@ -31,7 +33,15 @@ export function CalendarMonth({ dateString, occupancies }: CalendarMonthProps) {
 				{eachDayOfInterval({ start: date, end: endOfMonth(date) }).map((date) => {
 					const dateString = formatISO(date, { representation: "date" });
 
-					return <CalendarDate occupancySlot={occupancies?.get(dateString)} dateString={dateString} key={dateString} />;
+					return (
+						<CalendarDate
+							occupancySlot={occupancies?.get(dateString)}
+							dateString={dateString}
+							onClick={onDateClick}
+							onClickOccupancy={onOccupancyClick}
+							key={dateString}
+						/>
+					);
 				})}
 			</div>
 		</div>

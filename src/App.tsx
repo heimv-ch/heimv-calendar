@@ -18,14 +18,20 @@ function App() {
 			<Calendar
 				occupancies={
 					new Map([
-						[today, { allDay: { key: "alkdfjlkf", color: "red" } }],
+						[today, { allDay: { key: "alkdfjlkf" } }],
 						[
 							plus2,
-							{ forenoon: { key: "sakjfklösfjsal", color: "blue" }, afternoon: { key: "asldkjfdflk", color: "red" } },
+							{
+								forenoon: { key: "sakjfklösfjsal", color: "blue" },
+								afternoon: { key: "asldkjfdflk", color: "#e8bc56" },
+							},
 						],
-						[plus3, { allDay: { key: "alkdfjlkf", color: "red" } }],
+						[plus3, { allDay: { key: "alkdfjlkf" } }],
+						[plus4, { forenoon: { key: "alkdfjlkf" } }],
 					])
 				}
+				onOccupancyClick={console.log}
+				onDateClick={console.log}
 			/>
 		</>
 	);

@@ -23,19 +23,23 @@ export function CalendarDate(props: CalendarDateProps) {
 
 	const isToday = isSameDay(date, new Date());
 
-	const classNames = ["occupancy-calendar-date", "has-occupancies"].filter((className) => className).join(" ");
-
 	return (
-		<time className={["date", ...(isToday ? ["today"] : [])].join(" ")} dateTime={dateString}>
-			<a className="date-action" href={href} onClick={() => onClick?.(date)}>
-				{getDate(date)}
+		<div
+			className={["date", ...(isToday ? ["today"] : []), ...(props.occupancySlot ? ["has-occupancies"] : [])].join(" ")}
+		>
+			<a href={href} onClick={() => onClick?.(date)}>
+				<time dateTime={dateString}>{getDate(date)}</time>
 			</a>
-			<div className={classNames}>
+			{props.occupancySlot && (
 				<svg viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
 					<title>Occupancy</title>
 					{allDay ? (
+						// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 						<rect
-							onKeyUp={() => onClickOccupancy?.(allDay)}
+							onClick={(e) => {
+								e.stopPropagation();
+								onClickOccupancy?.(allDay);
+							}}
 							className="occupancy-slot"
 							y="0"
 							x="0"
@@ -46,16 +50,24 @@ export function CalendarDate(props: CalendarDateProps) {
 					) : (
 						<>
 							{forenoon && (
+								// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 								<polygon
-									onKeyUp={() => onClickOccupancy?.(forenoon)}
+									onClick={(e) => {
+										e.stopPropagation();
+										onClickOccupancy?.(forenoon);
+									}}
 									className="occupancy-slot"
 									points="0,0 0,46 46,0"
 									fill={forenoon.color ?? defaults.color}
 								/>
 							)}
 							{afternoon && (
+								// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 								<polygon
-									onKeyUp={() => onClickOccupancy?.(afternoon)}
+									onClick={(e) => {
+										e.stopPropagation();
+										onClickOccupancy?.(afternoon);
+									}}
 									className="occupancy-slot"
 									points="48,0 48,48 0,48"
 									fill={afternoon.color ?? defaults.color}
@@ -64,7 +76,7 @@ export function CalendarDate(props: CalendarDateProps) {
 						</>
 					)}
 				</svg>
-			</div>
-		</time>
+			)}
+		</div>
 	);
 }

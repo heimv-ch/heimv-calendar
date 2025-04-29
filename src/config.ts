@@ -1,4 +1,4 @@
 export const defaults = {
     visibleMonths: 8,
-    color: 'red'
+    color: '#e85f5f'
 }

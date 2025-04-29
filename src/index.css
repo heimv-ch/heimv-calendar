@@ -1,3 +1,7 @@
+body {
+	font-family: sans-serif;
+}
+
 @keyframes fadein {
 	from {
 		opacity: 0;
@@ -11,6 +15,12 @@
 .calendar {
 	position: relative;
 	container: calendar / inline-size;
+
+	button {
+		border: none;
+		outline: none;
+		background: none;
+	}
 
 	.calendar-nav {
 		display: flex;
@@ -152,8 +162,6 @@
 
 		.date {
 			position: relative;
-			display: grid;
-			place-content: center;
 			aspect-ratio: 1 / 1;
 			padding: 0;
 		}
@@ -190,60 +198,59 @@
 		}
 	}
 
-	.date-action {
-		background: transparent;
-		border: none;
-		display: block;
-		width: 100%;
-		height: 100%;
-		padding: 0;
-		color: black;
-		position: relative;
-		cursor: pointer;
-		z-index: 2;
+	.date {
+		a {
+			display: grid;
+			height: 100%;
+			place-content: center;
+			cursor: pointer;
 
-		&.highlighted {
-			/* outline: 1px solid $primary;
+			time {
+				pointer-events: none;
+				z-index: 2;
+			}
+
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.1);
+			}
+
+			&.highlighted {
+				/* outline: 1px solid $primary;
       background-color: $primary; */
 
-			.label {
-				font-weight: bold;
-				color: white;
+				.occupancy-calendar-date svg {
+					opacity: 0.7;
+				}
 			}
 
-			.occupancy-calendar-date svg {
-				opacity: 0.7;
-			}
-		}
+			&:disabled,
+			&[aria-disabled="true"] {
+				cursor: default;
 
-		&:disabled,
-		&[aria-disabled="true"] {
-			cursor: default;
-
-			.label {
-				color: #777;
+				.label {
+					color: #777;
+				}
 			}
 		}
-	}
 
-	.occupancy-calendar-date {
 		svg polygon:hover,
 		svg rect:hover {
 			opacity: 0.7;
 		}
 
-		&.has-occupancies .label {
+		&.has-occupancies {
 			font-weight: bold;
 		}
-
 		svg {
 			cursor: pointer;
 			overflow: clip;
 			position: absolute;
 			inset: 0;
+			pointer-events: none;
 
 			rect,
 			polygon {
+				pointer-events: auto;
 				animation: fadein 500ms;
 			}
 

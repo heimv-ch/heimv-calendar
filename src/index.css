@@ -177,10 +177,22 @@ body {
 		}
 	}
 
-	.date.today {
+	.date {
 		position: relative;
+		&.interactive {
+			a {
+				cursor: pointer;
+				&:hover {
+					background-color: rgba(0, 0, 0, 0.1);
+				}
+			}
+		}
 
-		&::after {
+		&.has-occupancies {
+			font-weight: bold;
+		}
+
+		&.today::after {
 			display: block;
 			border: 0.4em solid rgba(255, 0, 0, 0.65);
 			content: "";
@@ -196,22 +208,15 @@ body {
 			box-sizing: border-box;
 			pointer-events: none;
 		}
-	}
 
-	.date {
 		a {
 			display: grid;
 			height: 100%;
 			place-content: center;
-			cursor: pointer;
 
 			time {
 				pointer-events: none;
 				z-index: 2;
-			}
-
-			&:hover {
-				background-color: rgba(0, 0, 0, 0.1);
 			}
 
 			&.highlighted {
@@ -233,14 +238,6 @@ body {
 			}
 		}
 
-		svg polygon:hover,
-		svg rect:hover {
-			opacity: 0.7;
-		}
-
-		&.has-occupancies {
-			font-weight: bold;
-		}
 		svg {
 			cursor: pointer;
 			overflow: clip;
@@ -252,11 +249,14 @@ body {
 			polygon {
 				pointer-events: auto;
 				animation: fadein 500ms;
-			}
 
-			rect:not([fill]),
-			polygon:not([fill]) {
-				fill: transparent;
+				&:hover {
+					opacity: 0.7;
+				}
+
+				&:not([fill]) {
+					fill: transparent;
+				}
 			}
 		}
 

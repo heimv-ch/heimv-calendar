@@ -22,15 +22,22 @@ export function CalendarDate(props: CalendarDateProps) {
 	const date = parseISO(dateString);
 
 	const isToday = isSameDay(date, new Date());
+	const isInteractive = !!onClick;
+	const hasOccupancies = !!props.occupancySlot;
 
 	return (
 		<div
-			className={["date", ...(isToday ? ["today"] : []), ...(props.occupancySlot ? ["has-occupancies"] : [])].join(" ")}
+			className={[
+				"date",
+				...(isInteractive ? ["interactive"] : []),
+				...(isToday ? ["today"] : []),
+				...(hasOccupancies ? ["has-occupancies"] : []),
+			].join(" ")}
 		>
 			<a href={href} onClick={() => onClick?.(date)}>
 				<time dateTime={dateString}>{getDate(date)}</time>
 			</a>
-			{props.occupancySlot && (
+			{hasOccupancies && (
 				<svg viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
 					<title>Occupancy</title>
 					{allDay ? (

@@ -1,7 +1,10 @@
 export type Occupancy = {
   key: string;
-  beginsAt: Date;
-  endsAt: Date;
-  occupancyType: "free" | "tentative" | "occupied" | "closed";
   color?: string;
+}
+
+export type OccupancySlot = {
+  allDay?: Occupancy,
+  forenoon?: Occupancy,
+  afternoon?: Occupancy
 }

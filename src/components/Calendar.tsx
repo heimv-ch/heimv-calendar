@@ -1,15 +1,15 @@
 import { addMonths, eachMonthOfInterval, formatISO } from "date-fns";
-import type { Occupancy } from "../model/occupancy";
+import type { OccupancySlot } from "../model/occupancy";
 import { CalendarMonth } from "./CalendarMonth";
 import { defaults } from "../config";
 
 export type CalendarProps = {
 	currentDate?: Date;
-	occupancies?: Occupancy[];
+	occupancies?: Map<string, OccupancySlot>;
 	visibleMonth?: number;
 };
 
-export function Calendar({ currentDate = new Date(), visibleMonth }: CalendarProps) {
+export function Calendar({ currentDate = new Date(), visibleMonth, occupancies }: CalendarProps) {
 	return (
 		<div className="calendar">
 			<div className="months-calendar">
@@ -19,7 +19,7 @@ export function Calendar({ currentDate = new Date(), visibleMonth }: CalendarPro
 						end: addMonths(currentDate, (visibleMonth ?? defaults.visibleMonths) - 1),
 					}).map((date) => {
 						const dateString = formatISO(date, { representation: "date" });
-						return <CalendarMonth dateString={dateString} key={dateString} />;
+						return <CalendarMonth occupancies={occupancies} dateString={dateString} key={dateString} />;
 					})}
 				</div>
 			</div>

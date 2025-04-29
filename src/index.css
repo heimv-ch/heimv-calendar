@@ -151,6 +151,7 @@
 		}
 
 		.date {
+			position: relative;
 			display: grid;
 			place-content: center;
 			aspect-ratio: 1 / 1;
@@ -199,6 +200,7 @@
 		color: black;
 		position: relative;
 		cursor: pointer;
+		z-index: 2;
 
 		&.highlighted {
 			/* outline: 1px solid $primary;
@@ -225,21 +227,9 @@
 	}
 
 	.occupancy-calendar-date {
-		&:hover svg {
-			opacity: 0.8;
-		}
-
-		.label {
-			display: block;
-			position: absolute;
-			top: 50%;
-			margin-top: -0.5em;
-			line-height: 1em;
-			z-index: 2;
-			width: 100%;
-			text-align: center;
-			opacity: 0.8;
-			cursor: inherit;
+		svg polygon:hover,
+		svg rect:hover {
+			opacity: 0.7;
 		}
 
 		&.has-occupancies .label {
@@ -247,8 +237,10 @@
 		}
 
 		svg {
-			cursor: inherit;
+			cursor: pointer;
 			overflow: clip;
+			position: absolute;
+			inset: 0;
 
 			rect,
 			polygon {

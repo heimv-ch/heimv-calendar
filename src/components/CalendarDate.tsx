@@ -1,6 +1,7 @@
 import { getDate, isSameDay, parseISO } from "date-fns";
 import type { Occupancy, OccupancySlot } from "../model/occupancy";
-import { defaults } from "../config";
+import type { ReactNode } from "react";
+import { OccupancySlot as OccupancySlotComponent } from "./OccupancySlot";
 
 type CalendarDateProps = {
 	dateString: string;
@@ -8,16 +9,11 @@ type CalendarDateProps = {
 	href?: string;
 	onClickOccupancy?: (occupancy: Occupancy) => void;
 	occupancySlot?: OccupancySlot;
+	renderOccupancyPopover?: (occupancy: Occupancy) => ReactNode;
 };
 
 export function CalendarDate(props: CalendarDateProps) {
-	const {
-		dateString,
-		occupancySlot: { allDay, forenoon, afternoon } = {},
-		href,
-		onClick,
-		onClickOccupancy,
-	} = props;
+	const { dateString, occupancySlot, href, onClick, onClickOccupancy, renderOccupancyPopover } = props;
 
 	const date = parseISO(dateString);
 
@@ -37,52 +33,12 @@ export function CalendarDate(props: CalendarDateProps) {
 			<a href={href} onClick={() => onClick?.(date)}>
 				<time dateTime={dateString}>{getDate(date)}</time>
 			</a>
-			{hasOccupancies && (
-				<svg viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
-					<title>Occupancy</title>
-					{allDay ? (
-						// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-						<rect
-							onClick={(e) => {
-								e.stopPropagation();
-								onClickOccupancy?.(allDay);
-							}}
-							className="occupancy-slot"
-							y="0"
-							x="0"
-							width="48"
-							height="48"
-							fill={allDay.color ?? defaults.color}
-						/>
-					) : (
-						<>
-							{forenoon && (
-								// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-								<polygon
-									onClick={(e) => {
-										e.stopPropagation();
-										onClickOccupancy?.(forenoon);
-									}}
-									className="occupancy-slot"
-									points="0,0 0,46 46,0"
-									fill={forenoon.color ?? defaults.color}
-								/>
-							)}
-							{afternoon && (
-								// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-								<polygon
-									onClick={(e) => {
-										e.stopPropagation();
-										onClickOccupancy?.(afternoon);
-									}}
-									className="occupancy-slot"
-									points="48,0 48,48 0,48"
-									fill={afternoon.color ?? defaults.color}
-								/>
-							)}
-						</>
-					)}
-				</svg>
+			{occupancySlot && (
+				<OccupancySlotComponent
+					occupancySlot={occupancySlot}
+					onClick={onClickOccupancy}
+					renderPopover={renderOccupancyPopover}
+				/>
 			)}
 		</div>
 	);

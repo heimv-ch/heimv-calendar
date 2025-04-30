@@ -108,16 +108,6 @@ body {
 			text-align: center;
 			font-weight: bold;
 		}
-
-		.month .occupancy-popover {
-			transform: translate(-43%, 2.55em);
-		}
-
-		.month:nth-last-child(-n + 6) {
-			.occupancy-popover {
-				transform: translate(-43%, -105%);
-			}
-		}
 	}
 
 	.months-calendar {
@@ -164,16 +154,6 @@ body {
 			position: relative;
 			aspect-ratio: 1 / 1;
 			padding: 0;
-		}
-
-		.date .occupancy-popover {
-			transform: translate(-43%, -100%);
-		}
-
-		.date:nth-child(-n + 14) {
-			.occupancy-popover {
-				transform: translate(-43%, 3em);
-			}
 		}
 	}
 
@@ -267,18 +247,6 @@ body {
 	}
 
 	.occupancy-popover {
-		position: absolute;
 		z-index: 10;
-		display: none;
-		width: max-content;
-		text-align: start;
-		max-width: min(90vw, 20rem);
-		padding: 0.5em;
-
-		ul.occupancies {
-			& > li + li {
-				margin-top: 2em;
-			}
-		}
 	}
 }

@@ -2,12 +2,14 @@ import { addMonths, eachMonthOfInterval, formatISO } from "date-fns";
 import type { Occupancy, OccupancySlot } from "../model/occupancy";
 import { CalendarMonth } from "./CalendarMonth";
 import { defaults } from "../config";
+import type { ReactNode } from "react";
 
 export type CalendarProps = {
 	currentDate?: Date;
 	occupancies?: Map<string, OccupancySlot>;
 	onDateClick?: (date: Date) => void;
 	onOccupancyClick?: (occupancy: Occupancy) => void;
+	renderOccupancyPopover?: (occupancy: Occupancy) => ReactNode;
 	visibleMonth?: number;
 };
 
@@ -17,6 +19,7 @@ export function Calendar({
 	occupancies,
 	onDateClick,
 	onOccupancyClick,
+	renderOccupancyPopover,
 }: CalendarProps) {
 	return (
 		<div className="calendar">
@@ -34,6 +37,7 @@ export function Calendar({
 								key={dateString}
 								onDateClick={onDateClick}
 								onOccupancyClick={onOccupancyClick}
+								renderOccupancyPopover={renderOccupancyPopover}
 							/>
 						);
 					})}

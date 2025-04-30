@@ -18,11 +18,11 @@ function App() {
 			<Calendar
 				occupancies={
 					new Map([
-						[today, { allDay: { key: "alkdfjlkf" } }],
+						[today, { allDay: { key: "alkdfjllasdjfdlkasjadslfjasdlkjasdlkjkf" } }],
 						[
 							plus2,
 							{
-								forenoon: { key: "sakjfklösfjsal", color: "blue" },
+								forenoon: { key: "sakjfklösfjsal", color: "lightblue" },
 								afternoon: { key: "asldkjfdflk", color: "#e8bc56" },
 							},
 						],
@@ -32,6 +32,17 @@ function App() {
 				}
 				onOccupancyClick={console.log}
 				onDateClick={console.log}
+				renderOccupancyPopover={({ key }) => (
+					<div
+						style={{
+							boxShadow: "0 0 5px black",
+							backgroundColor: "white",
+							padding: 20,
+						}}
+					>
+						{key}
+					</div>
+				)}
 			/>
 		</>
 	);

@@ -20,6 +20,7 @@ body {
 		border: none;
 		outline: none;
 		background: none;
+		font-size: 1rem;
 	}
 
 	a {
@@ -163,8 +164,8 @@ body {
 		padding: 0;
 
 		&.interactive {
-			a,
-			button {
+			button:not(:disabled),
+			a:not([aria-disabled="true"]) {
 				cursor: pointer;
 				&:hover,
 				&:focus {
@@ -176,6 +177,7 @@ body {
 		&.has-occupancies {
 			time {
 				font-weight: bold;
+				color: black;
 			}
 		}
 
@@ -220,10 +222,7 @@ body {
 			&:disabled,
 			&[aria-disabled="true"] {
 				cursor: default;
-
-				.label {
-					color: #777;
-				}
+				color: #777;
 			}
 		}
 

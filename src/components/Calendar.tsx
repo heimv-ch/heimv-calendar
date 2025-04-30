@@ -9,15 +9,15 @@ export enum CalendarMode {
 }
 
 export type CalendarBaseProps = {
-	currentDate: Date;
 	occupancies?: Map<string, OccupancySlot>;
+	disableDate?: (date: Date) => boolean;
 	onDateClick?: (date: Date) => void;
 	getDateHref?: (date: Date) => string;
 	onOccupancyClick?: (occupancy: Occupancy) => void;
 	renderOccupancyPopover?: (occupancy: Occupancy) => ReactNode;
 };
 
-export type CalendarProps = Omit<CalendarBaseProps, "currentDate"> & {
+export type CalendarProps = CalendarBaseProps & {
 	mode?: CalendarMode;
 	currentDate?: Date;
 	visibleMonth?: number;
@@ -27,20 +27,9 @@ export function Calendar({
 	currentDate = new Date(),
 	mode = CalendarMode.months,
 	visibleMonth,
-	occupancies,
-	onDateClick,
-	getDateHref,
-	onOccupancyClick,
-	renderOccupancyPopover,
+	...calendarBaseProps
 }: CalendarProps) {
-	const commonCalendarProps: CalendarBaseProps = {
-		currentDate,
-		occupancies,
-		onDateClick,
-		getDateHref,
-		onOccupancyClick,
-		renderOccupancyPopover,
-	};
+	const commonCalendarProps = { currentDate, ...calendarBaseProps };
 
 	const renderCalendar = () => {
 		switch (mode) {

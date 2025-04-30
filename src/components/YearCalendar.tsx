@@ -2,7 +2,9 @@ import { addMonths, eachMonthOfInterval, formatISO } from "date-fns";
 import { CalendarMonth } from "./CalendarMonth";
 import type { CalendarBaseProps } from "./Calendar";
 
-type YearCalendarProps = CalendarBaseProps;
+type YearCalendarProps = CalendarBaseProps & {
+	currentDate: Date;
+};
 
 export function YearCalendar({ currentDate, ...rest }: YearCalendarProps) {
 	return (

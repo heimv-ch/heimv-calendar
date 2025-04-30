@@ -6,6 +6,7 @@ import { OccupancySlot as OccupancySlotComponent } from "./OccupancySlot";
 export type CalendarDateProps = {
 	dateString: string;
 	renderLabel?: (date: Date) => string;
+	disabled?: boolean;
 	onClick?: (date: Date) => void;
 	href?: string;
 	onClickOccupancy?: (occupancy: Occupancy) => void;
@@ -17,6 +18,7 @@ export function CalendarDate({
 	dateString,
 	renderLabel,
 	occupancySlot,
+	disabled,
 	href,
 	onClick,
 	onClickOccupancy,
@@ -25,7 +27,7 @@ export function CalendarDate({
 	const date = parseISO(dateString);
 
 	const isToday = isSameDay(date, new Date());
-	const isInteractive = !!onClick;
+	const isInteractive = !!onClick || !!href;
 	const hasOccupancies = !!occupancySlot;
 
 	const renderDate = () => <time dateTime={dateString}>{renderLabel?.(date) ?? getDate(date)}</time>;
@@ -39,7 +41,15 @@ export function CalendarDate({
 				...(hasOccupancies ? ["has-occupancies"] : []),
 			].join(" ")}
 		>
-			{href ? <a href={href}>{renderDate()}</a> : <button onClick={() => onClick?.(date)}>{renderDate()} </button>}
+			{href ? (
+				<a aria-disabled={disabled} href={disabled ? undefined : href}>
+					{renderDate()}
+				</a>
+			) : (
+				<button disabled={disabled} onClick={() => onClick?.(date)}>
+					{renderDate()}
+				</button>
+			)}
 
 			{occupancySlot && (
 				<OccupancySlotComponent

@@ -31,8 +31,10 @@ function App() {
 						[plus4, { forenoon: { key: "alkdfjlkf" } }],
 					])
 				}
+				disableDate={(date) => date < new Date()}
 				onOccupancyClick={console.log}
 				onDateClick={console.log}
+				// getDateHref={(date) => `https://google.ch/${date}`}
 				renderOccupancyPopover={({ key }) => (
 					<div
 						style={{

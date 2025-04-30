@@ -4,6 +4,7 @@ import { defaults } from "../config";
 import type { CalendarBaseProps } from "./Calendar";
 
 type MonthsCalendarProps = CalendarBaseProps & {
+	currentDate: Date;
 	visibleMonths?: number;
 };
 

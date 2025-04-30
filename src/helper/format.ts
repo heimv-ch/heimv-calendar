@@ -8,7 +8,6 @@ export const formatWeekDay = (date: Date) =>
 		weekday: "short",
 	}).format(date);
 
-export const formattedWeekdays = Array.from(
-	{ length: 7 },
-	(_, i) => formatWeekDay(new Date(Date.UTC(2021, 2, i + 1))) /* February 1–7, 2021 is Monday - Sunday*/,
+export const formattedWeekdays = [...Array(7).keys()].map(
+	(day) => formatWeekDay(new Date(Date.UTC(2021, 2, day + 1))) /* February 1–7, 2021 is Monday - Sunday */,
 );

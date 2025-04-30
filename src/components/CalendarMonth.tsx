@@ -1,23 +1,18 @@
 import { eachDayOfInterval, endOfMonth, formatISO, getDay, parseISO, startOfMonth } from "date-fns";
 import { CalendarDate, type CalendarDateProps } from "./CalendarDate";
-import type { Occupancy, OccupancySlot } from "../model/occupancy";
-import type { ReactNode } from "react";
 import { formatMonth, formattedWeekdays } from "../helper/format";
+import type { CalendarBaseProps } from "./Calendar";
 
-type CalendarMonthProps = {
+type CalendarMonthProps = CalendarBaseProps & {
 	dateString: string;
 	by: "week" | "day";
-	occupancies?: Map<string, OccupancySlot>;
-	onDateClick?: (date: Date) => void;
-	getDateHref?: (date: Date) => string;
-	onOccupancyClick?: (occupancy: Occupancy) => void;
-	renderOccupancyPopover?: (occupancy: Occupancy) => ReactNode;
 };
 
 export function CalendarMonth({
 	dateString,
 	by,
 	occupancies,
+	disableDate,
 	onDateClick,
 	getDateHref,
 	onOccupancyClick,
@@ -33,6 +28,7 @@ export function CalendarMonth({
 			dateString: dateString,
 			onClick: onDateClick,
 			href: getDateHref?.(date),
+			disabled: disableDate?.(date),
 			occupancySlot: occupancies?.get(dateString),
 			onClickOccupancy: onOccupancyClick,
 			renderOccupancyPopover: renderOccupancyPopover,
@@ -46,8 +42,8 @@ export function CalendarMonth({
 					<header>
 						<h3>{formatMonth(monthStart)}</h3>
 						<div className="weekdays">
-							{[...Array(7).keys()].map((day) => (
-								<div key={`weekday-${day}`}>{formattedWeekdays[day]}</div>
+							{formattedWeekdays.map((day, index) => (
+								<div key={`weekday-${index + 1}`}>{day}</div>
 							))}
 						</div>
 					</header>

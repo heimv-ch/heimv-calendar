@@ -1,11 +1,15 @@
-import { addMonths, eachMonthOfInterval, formatISO } from "date-fns";
 import type { Occupancy, OccupancySlot } from "../model/occupancy";
-import { CalendarMonth } from "./CalendarMonth";
-import { defaults } from "../config";
 import type { ReactNode } from "react";
+import { MonthsCalendar } from "./MonthsCalendar";
+
+export enum CalendarMode {
+	months = "months",
+	year = "year",
+}
 
 export type CalendarProps = {
 	currentDate?: Date;
+	mode?: CalendarMode;
 	occupancies?: Map<string, OccupancySlot>;
 	onDateClick?: (date: Date) => void;
 	getDateHref?: (date: Date) => string;
@@ -16,6 +20,7 @@ export type CalendarProps = {
 
 export function Calendar({
 	currentDate = new Date(),
+	mode = CalendarMode.months,
 	visibleMonth,
 	occupancies,
 	onDateClick,
@@ -23,29 +28,23 @@ export function Calendar({
 	onOccupancyClick,
 	renderOccupancyPopover,
 }: CalendarProps) {
-	return (
-		<div className="calendar">
-			<div className="months-calendar">
-				<div className="months">
-					{eachMonthOfInterval({
-						start: currentDate,
-						end: addMonths(currentDate, (visibleMonth ?? defaults.visibleMonths) - 1),
-					}).map((date) => {
-						const dateString = formatISO(date, { representation: "date" });
-						return (
-							<CalendarMonth
-								occupancies={occupancies}
-								dateString={dateString}
-								key={dateString}
-								onDateClick={onDateClick}
-								getDateHref={getDateHref}
-								onOccupancyClick={onOccupancyClick}
-								renderOccupancyPopover={renderOccupancyPopover}
-							/>
-						);
-					})}
-				</div>
-			</div>
-		</div>
-	);
+	const commonCalendarProps = {
+		currentDate,
+		occupancies,
+		onDateClick,
+		getDateHref,
+		onOccupancyClick,
+		renderOccupancyPopover,
+	};
+
+	const renderCalendar = () => {
+		switch (mode) {
+			case CalendarMode.months:
+				return <MonthsCalendar {...commonCalendarProps} visibleMonths={visibleMonth} />;
+			default:
+				break;
+		}
+	};
+
+	return <div className="calendar">{renderCalendar()}</div>;
 }

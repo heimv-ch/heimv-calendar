@@ -30,9 +30,16 @@ export function CalendarDate(props: CalendarDateProps) {
 				...(hasOccupancies ? ["has-occupancies"] : []),
 			].join(" ")}
 		>
-			<a href={href} onClick={() => onClick?.(date)}>
-				<time dateTime={dateString}>{getDate(date)}</time>
-			</a>
+			{href ? (
+				<a href={href}>
+					<time dateTime={dateString}>{getDate(date)}</time>
+				</a>
+			) : (
+				<button onClick={() => onClick?.(date)}>
+					<time dateTime={dateString}>{getDate(date)}</time>
+				</button>
+			)}
+
 			{occupancySlot && (
 				<OccupancySlotComponent
 					occupancySlot={occupancySlot}

@@ -30,6 +30,7 @@ export function Occupancy({ type, occupancy, renderPopover, onClick }: Occupancy
 			onClick?.();
 		},
 		fill: occupancy.color ?? defaults.color,
+		tabIndex: 0,
 		ref: refs.setReference,
 		...getReferenceProps(),
 	};

@@ -8,6 +8,7 @@ export type CalendarProps = {
 	currentDate?: Date;
 	occupancies?: Map<string, OccupancySlot>;
 	onDateClick?: (date: Date) => void;
+	getDateHref?: (date: Date) => string;
 	onOccupancyClick?: (occupancy: Occupancy) => void;
 	renderOccupancyPopover?: (occupancy: Occupancy) => ReactNode;
 	visibleMonth?: number;
@@ -18,6 +19,7 @@ export function Calendar({
 	visibleMonth,
 	occupancies,
 	onDateClick,
+	getDateHref,
 	onOccupancyClick,
 	renderOccupancyPopover,
 }: CalendarProps) {
@@ -36,6 +38,7 @@ export function Calendar({
 								dateString={dateString}
 								key={dateString}
 								onDateClick={onDateClick}
+								getDateHref={getDateHref}
 								onOccupancyClick={onOccupancyClick}
 								renderOccupancyPopover={renderOccupancyPopover}
 							/>

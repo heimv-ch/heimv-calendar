@@ -105,6 +105,7 @@ body {
 			display: grid;
 			grid-template-columns: subgrid;
 			grid-column: span 32;
+			align-items: center;
 			gap: 1px;
 			margin-bottom: 1px;
 

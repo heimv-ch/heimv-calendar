@@ -16,7 +16,7 @@ function App() {
 		<>
 			<h1>Calendar Playground</h1>
 			<Calendar
-				mode={CalendarMode.year}
+				mode={CalendarMode.months}
 				occupancies={
 					new Map([
 						[today, { allDay: { key: "alkdfjllasdjfdlkasjadslfjasdlkjasdlkjkf" } }],

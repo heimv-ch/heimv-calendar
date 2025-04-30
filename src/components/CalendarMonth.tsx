@@ -1,7 +1,8 @@
-import { eachDayOfInterval, endOfMonth, format, formatISO, getDay, parseISO, startOfMonth } from "date-fns";
+import { eachDayOfInterval, endOfMonth, formatISO, getDay, parseISO, startOfMonth } from "date-fns";
 import { CalendarDate, type CalendarDateProps } from "./CalendarDate";
 import type { Occupancy, OccupancySlot } from "../model/occupancy";
 import type { ReactNode } from "react";
+import { formatMonth, formattedWeekdays } from "../helper/format";
 
 type CalendarMonthProps = {
 	dateString: string;
@@ -12,9 +13,6 @@ type CalendarMonthProps = {
 	onOccupancyClick?: (occupancy: Occupancy) => void;
 	renderOccupancyPopover?: (occupancy: Occupancy) => ReactNode;
 };
-
-// Handle localization
-const weekdayShortNames = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"] as const;
 
 export function CalendarMonth({
 	dateString,
@@ -46,11 +44,10 @@ export function CalendarMonth({
 			{by === "week" ? (
 				<>
 					<header>
-						{/* Handle localization */}
-						<h3>{format(monthStart, "MMMM")}</h3>
+						<h3>{formatMonth(monthStart)}</h3>
 						<div className="weekdays">
 							{[...Array(7).keys()].map((day) => (
-								<div key={`weekday-${day}`}>{weekdayShortNames[day]}</div>
+								<div key={`weekday-${day}`}>{formattedWeekdays[day]}</div>
 							))}
 						</div>
 					</header>
@@ -64,19 +61,15 @@ export function CalendarMonth({
 				</>
 			) : (
 				<>
-					<div className="month-label">{format(monthStart, "MMMM")}</div>
+					<div className="month-label">{formatMonth(monthStart)}</div>
 
-					{eachDayOfInterval({ start: monthStart, end: endOfMonth(monthStart) }).map((date) => {
-						const weekdayName = weekdayShortNames[(getDay(date) + 6) % weekdayShortNames.length];
-
-						return (
-							<CalendarDate
-								key={date.toISOString()}
-								renderLabel={() => weekdayName}
-								{...getCommonCalendarDateProps(date)}
-							/>
-						);
-					})}
+					{eachDayOfInterval({ start: monthStart, end: endOfMonth(monthStart) }).map((date) => (
+						<CalendarDate
+							key={date.toISOString()}
+							renderLabel={() => formattedWeekdays[(getDay(date) + 6) % 7]}
+							{...getCommonCalendarDateProps(date)}
+						/>
+					))}
 				</>
 			)}
 		</div>

@@ -3,8 +3,9 @@ import type { Occupancy, OccupancySlot } from "../model/occupancy";
 import type { ReactNode } from "react";
 import { OccupancySlot as OccupancySlotComponent } from "./OccupancySlot";
 
-type CalendarDateProps = {
+export type CalendarDateProps = {
 	dateString: string;
+	renderLabel?: (date: Date) => string;
 	onClick?: (date: Date) => void;
 	href?: string;
 	onClickOccupancy?: (occupancy: Occupancy) => void;
@@ -12,14 +13,22 @@ type CalendarDateProps = {
 	renderOccupancyPopover?: (occupancy: Occupancy) => ReactNode;
 };
 
-export function CalendarDate(props: CalendarDateProps) {
-	const { dateString, occupancySlot, href, onClick, onClickOccupancy, renderOccupancyPopover } = props;
-
+export function CalendarDate({
+	dateString,
+	renderLabel,
+	occupancySlot,
+	href,
+	onClick,
+	onClickOccupancy,
+	renderOccupancyPopover,
+}: CalendarDateProps) {
 	const date = parseISO(dateString);
 
 	const isToday = isSameDay(date, new Date());
 	const isInteractive = !!onClick;
-	const hasOccupancies = !!props.occupancySlot;
+	const hasOccupancies = !!occupancySlot;
+
+	const renderDate = () => <time dateTime={dateString}>{renderLabel?.(date) ?? getDate(date)}</time>;
 
 	return (
 		<div
@@ -30,15 +39,7 @@ export function CalendarDate(props: CalendarDateProps) {
 				...(hasOccupancies ? ["has-occupancies"] : []),
 			].join(" ")}
 		>
-			{href ? (
-				<a href={href}>
-					<time dateTime={dateString}>{getDate(date)}</time>
-				</a>
-			) : (
-				<button onClick={() => onClick?.(date)}>
-					<time dateTime={dateString}>{getDate(date)}</time>
-				</button>
-			)}
+			{href ? <a href={href}>{renderDate()}</a> : <button onClick={() => onClick?.(date)}>{renderDate()} </button>}
 
 			{occupancySlot && (
 				<OccupancySlotComponent

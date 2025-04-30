@@ -1,5 +1,5 @@
 import { addDays, formatISO } from "date-fns";
-import { Calendar } from "./components/Calendar";
+import { Calendar, CalendarMode } from "./components/Calendar";
 
 function App() {
 	const today = formatISO(new Date(), { representation: "date" });
@@ -16,6 +16,7 @@ function App() {
 		<>
 			<h1>Calendar Playground</h1>
 			<Calendar
+				mode={CalendarMode.year}
 				occupancies={
 					new Map([
 						[today, { allDay: { key: "alkdfjllasdjfdlkasjadslfjasdlkjasdlkjkf" } }],

@@ -3,9 +3,10 @@ import type { Occupancy, OccupancySlot } from "../model/occupancy";
 import { use, type ReactNode } from "react";
 import { OccupancySlot as OccupancySlotComponent } from "./OccupancySlot";
 import { CalendarStateContext, type DateRange } from "./CalendarStateContext";
+import { resolveClassNames } from "../helper/className";
 
 const isSelected = (date: Date, [start, end]: DateRange = [undefined, undefined]) => {
-	return start && (isSameDay(date, start) || (end && isWithinInterval(date, { start, end })));
+	return !!start && (isSameDay(date, start) || (!!end && isWithinInterval(date, { start, end })));
 };
 
 const isHovered = (date: Date, [start, end]: DateRange = [undefined, undefined], hovered?: Date) => {
@@ -20,7 +21,6 @@ export type CalendarDateProps = {
 	dateString: string;
 	renderLabel?: (date: Date) => string;
 	disabled?: boolean;
-	highlighted?: boolean;
 	onClick?: (date: Date) => void;
 	href?: string;
 	onClickOccupancy?: (occupancy: Occupancy) => void;
@@ -33,7 +33,6 @@ export function CalendarDate({
 	renderLabel,
 	occupancySlot,
 	disabled,
-	highlighted,
 	href,
 	onClick,
 	onClickOccupancy,
@@ -44,33 +43,38 @@ export function CalendarDate({
 	const { setHoveredDate, toggleSelectionRange, hoveredDate, selectedRange } = use(CalendarStateContext);
 
 	const isToday = isSameDay(date, new Date());
-	const isInteractive = !!onClick || !!href;
+	const isInteractive = !!onClick || !!href || !!onClickOccupancy;
 	const hasOccupancies = !!occupancySlot;
 	const selected = isSelected(date, selectedRange);
 	const hovered = isHovered(date, selectedRange, hoveredDate);
 
 	const renderDate = () => <time dateTime={dateString}>{renderLabel?.(date) ?? getDate(date)}</time>;
 
+	const dateClassNames = resolveClassNames({
+		date: true,
+		today: isToday,
+		"has-occupancies": hasOccupancies,
+	});
+
+	const buttonClassNames = resolveClassNames({
+		interactive: isInteractive,
+		selected: selected,
+		hovered: hovered,
+	});
+
 	return (
 		<div
 			onMouseEnter={() => setHoveredDate(date)}
 			onMouseLeave={() => setHoveredDate(undefined)}
-			className={[
-				"date",
-				...(isInteractive ? ["interactive"] : []),
-				...(isToday ? ["today"] : []),
-				...(hasOccupancies ? ["has-occupancies"] : []),
-				...(highlighted ? ["highlighted"] : []),
-				...(selected ? ["selected"] : []),
-				...(hovered ? ["hovered"] : []),
-			].join(" ")}
+			className={dateClassNames}
 		>
 			{href ? (
-				<a aria-disabled={disabled} href={disabled ? undefined : href}>
+				<a className={buttonClassNames} aria-disabled={disabled} href={disabled ? undefined : href}>
 					{renderDate()}
 				</a>
 			) : (
 				<button
+					className={buttonClassNames}
 					disabled={disabled}
 					onClick={() => {
 						toggleSelectionRange(date);

@@ -1,31 +1,11 @@
-import {
-	eachDayOfInterval,
-	endOfMonth,
-	formatISO,
-	getDay,
-	isSameDay,
-	isWithinInterval,
-	parseISO,
-	startOfMonth,
-} from "date-fns";
+import { eachDayOfInterval, endOfMonth, formatISO, getDay, parseISO, startOfMonth } from "date-fns";
 import { CalendarDate, type CalendarDateProps } from "./CalendarDate";
 import { formatMonth, formattedWeekdays } from "../helper/format";
 import type { CalendarBaseProps } from "./Calendar";
-import { CalendarStateContext, type DateRange } from "./CalendarStateContext";
-import { use } from "react";
 
 type CalendarMonthProps = CalendarBaseProps & {
 	dateString: string;
 	by: "week" | "day";
-};
-
-const shouldHighlight = (date: Date, range?: DateRange, hovered?: Date) => {
-	const [start, end] = range ?? [undefined, undefined];
-
-	if (!start) return !!hovered && isSameDay(date, hovered);
-	if (isSameDay(date, start)) return true;
-	if (!end) return !!hovered && start && (isSameDay(date, hovered) || isWithinInterval(date, { start, end: hovered }));
-	return (hovered && isSameDay(date, hovered)) || isWithinInterval(date, { start, end });
 };
 
 export function CalendarMonth({
@@ -41,8 +21,6 @@ export function CalendarMonth({
 	const monthStart = startOfMonth(parseISO(dateString));
 	const monthStartsAfter = (getDay(monthStart) + 6) % 7;
 
-	const { hoveredDate, selectedRange } = use(CalendarStateContext);
-
 	const getCommonCalendarDateProps = (date: Date): CalendarDateProps => {
 		const dateString = formatISO(date, { representation: "date" });
 
@@ -51,7 +29,6 @@ export function CalendarMonth({
 			onClick: onDateClick,
 			href: getDateHref?.(date),
 			disabled: disableDate?.(date),
-			highlighted: shouldHighlight(date, selectedRange, hoveredDate),
 			occupancySlot: occupancies?.get(dateString),
 			onClickOccupancy: onOccupancyClick,
 			renderOccupancyPopover: renderOccupancyPopover,

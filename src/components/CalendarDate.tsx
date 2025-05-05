@@ -1,8 +1,20 @@
-import { getDate, isSameDay, parseISO } from "date-fns";
+import { getDate, isSameDay, isWithinInterval, parseISO } from "date-fns";
 import type { Occupancy, OccupancySlot } from "../model/occupancy";
 import { use, type ReactNode } from "react";
 import { OccupancySlot as OccupancySlotComponent } from "./OccupancySlot";
-import { CalendarStateContext } from "./CalendarStateContext";
+import { CalendarStateContext, type DateRange } from "./CalendarStateContext";
+
+const isSelected = (date: Date, [start, end]: DateRange = [undefined, undefined]) => {
+	return start && (isSameDay(date, start) || (end && isWithinInterval(date, { start, end })));
+};
+
+const isHovered = (date: Date, [start, end]: DateRange = [undefined, undefined], hovered?: Date) => {
+	if (!hovered) return false;
+
+	if (start && !end) return isWithinInterval(date, { start, end: hovered });
+
+	return isSameDay(date, hovered);
+};
 
 export type CalendarDateProps = {
 	dateString: string;
@@ -29,11 +41,13 @@ export function CalendarDate({
 }: CalendarDateProps) {
 	const date = parseISO(dateString);
 
+	const { setHoveredDate, toggleSelectionRange, hoveredDate, selectedRange } = use(CalendarStateContext);
+
 	const isToday = isSameDay(date, new Date());
 	const isInteractive = !!onClick || !!href;
 	const hasOccupancies = !!occupancySlot;
-
-	const { setHoveredDate, toggleSelectionRange } = use(CalendarStateContext);
+	const selected = isSelected(date, selectedRange);
+	const hovered = isHovered(date, selectedRange, hoveredDate);
 
 	const renderDate = () => <time dateTime={dateString}>{renderLabel?.(date) ?? getDate(date)}</time>;
 
@@ -47,6 +61,8 @@ export function CalendarDate({
 				...(isToday ? ["today"] : []),
 				...(hasOccupancies ? ["has-occupancies"] : []),
 				...(highlighted ? ["highlighted"] : []),
+				...(selected ? ["selected"] : []),
+				...(hovered ? ["hovered"] : []),
 			].join(" ")}
 		>
 			{href ? (

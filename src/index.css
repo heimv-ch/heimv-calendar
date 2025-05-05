@@ -1,3 +1,8 @@
+:root {
+	--calendar-date-selected-color: blue;
+	--calendar-date-hovered-color: rgba(0, 0, 255, 0.5);
+}
+
 body {
 	font-family: sans-serif;
 }
@@ -198,11 +203,10 @@ body {
 			pointer-events: none;
 		}
 
-		&.highlighted {
+		&.hovered,
+		&.selected {
 			button:not(:disabled),
 			a:not([aria-disabled="true"]) {
-				background-color: blue;
-
 				time {
 					color: white;
 				}
@@ -210,6 +214,27 @@ body {
 
 			svg {
 				opacity: 0.7;
+			}
+		}
+
+		&.hovered {
+			button:not(:disabled),
+			a:not([aria-disabled="true"]) {
+				background-color: var(--calendar-date-hovered-color);
+			}
+		}
+
+		&.selected {
+			button:not(:disabled),
+			a:not([aria-disabled="true"]) {
+				background-color: var(--calendar-date-selected-color);
+			}
+		}
+
+		&:hover {
+			button:not(:disabled),
+			a:not([aria-disabled="true"]) {
+				background-color: var(--calendar-date-hovered-color);
 			}
 		}
 

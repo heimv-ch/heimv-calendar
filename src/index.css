@@ -97,7 +97,6 @@ body {
 	.date {
 		position: relative;
 		aspect-ratio: 1 / 1;
-		padding: 0;
 
 		&.has-occupancies {
 			time {

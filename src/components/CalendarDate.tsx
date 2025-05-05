@@ -40,7 +40,7 @@ export function CalendarDate({
 }: CalendarDateProps) {
 	const date = parseISO(dateString);
 
-	const { setHoveredDate, toggleSelectionRange, hoveredDate, selectedRange } = use(CalendarStateContext);
+	const { handleSetHoveredDate, toggleSelectionRange, hoveredDate, selectedRange } = use(CalendarStateContext);
 
 	const isToday = isSameDay(date, new Date());
 	const isInteractive = !!onClick || !!href || !!onClickOccupancy;
@@ -64,8 +64,8 @@ export function CalendarDate({
 
 	return (
 		<div
-			onMouseEnter={() => setHoveredDate(date)}
-			onMouseLeave={() => setHoveredDate(undefined)}
+			onMouseEnter={() => handleSetHoveredDate(date)}
+			onMouseLeave={() => handleSetHoveredDate(undefined)}
 			className={dateClassNames}
 		>
 			{href ? (

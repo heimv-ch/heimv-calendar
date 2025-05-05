@@ -1,4 +1,4 @@
-import { createContext, type PropsWithChildren, useState } from "react";
+import { createContext, type PropsWithChildren, useRef, useState } from "react";
 
 export type DateRange = [Date | undefined, Date | undefined];
 
@@ -6,11 +6,11 @@ type CalendarState = {
 	selectedRange?: DateRange;
 	toggleSelectionRange: (date: Date) => void;
 	hoveredDate?: Date;
-	setHoveredDate: (date?: Date) => void;
+	handleSetHoveredDate: (date?: Date) => void;
 };
 
 export const CalendarStateContext = createContext<CalendarState>({
-	setHoveredDate: () => {},
+	handleSetHoveredDate: () => {},
 	toggleSelectionRange: () => {},
 });
 
@@ -25,6 +25,7 @@ export function CalendarStateProvider({
 	setSelectedRange,
 }: PropsWithChildren<CalendarStateProviderProps>) {
 	const [hoveredDate, setHoveredDate] = useState<Date>();
+	const hoverDebounceRef = useRef<number | undefined>(undefined);
 
 	const toggleSelectionRange = (date: Date) => {
 		if (selectedRange?.[0] && !selectedRange?.[1]) {
@@ -34,8 +35,19 @@ export function CalendarStateProvider({
 		}
 	};
 
+	const handleSetHoveredDate = (date?: Date) => {
+		if (hoverDebounceRef.current) {
+			clearTimeout(hoverDebounceRef.current);
+			hoverDebounceRef.current = undefined;
+		}
+
+		if (date) return setHoveredDate(date);
+
+		hoverDebounceRef.current = setTimeout(() => setHoveredDate(undefined), 100);
+	};
+
 	return (
-		<CalendarStateContext.Provider value={{ selectedRange, toggleSelectionRange, hoveredDate, setHoveredDate }}>
+		<CalendarStateContext.Provider value={{ selectedRange, toggleSelectionRange, hoveredDate, handleSetHoveredDate }}>
 			{children}
 		</CalendarStateContext.Provider>
 	);

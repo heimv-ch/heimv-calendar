@@ -1,5 +1,7 @@
 import { addDays, formatISO } from "date-fns";
 import { Calendar, CalendarMode } from "./components/Calendar";
+import { useState } from "react";
+import type { DateRange } from "./components/CalendarStateContext";
 
 function App() {
 	const today = formatISO(new Date(), { representation: "date" });
@@ -11,6 +13,8 @@ function App() {
 	const plus6 = formatISO(addDays(new Date(), 6), { representation: "date" });
 	const plus7 = formatISO(addDays(new Date(), 7), { representation: "date" });
 	const plus8 = formatISO(addDays(new Date(), 8), { representation: "date" });
+
+	const [selectedRange, setSelectedRange] = useState<DateRange | undefined>([addDays(new Date(), 5), undefined]);
 
 	return (
 		<>
@@ -33,7 +37,8 @@ function App() {
 				}
 				disableDate={(date) => date < new Date()}
 				onOccupancyClick={console.log}
-				onDateClick={console.log}
+				onSelectRange={setSelectedRange}
+				selectedRange={selectedRange}
 				// getDateHref={(date) => `https://google.ch/${date}`}
 				renderOccupancyPopover={({ key }) => (
 					<div

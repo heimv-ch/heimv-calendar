@@ -198,6 +198,21 @@ body {
 			pointer-events: none;
 		}
 
+		&.highlighted {
+			button:not(:disabled),
+			a:not([aria-disabled="true"]) {
+				background-color: blue;
+
+				time {
+					color: white;
+				}
+			}
+
+			svg {
+				opacity: 0.7;
+			}
+		}
+
 		a,
 		button {
 			display: grid;
@@ -208,15 +223,6 @@ body {
 			time {
 				pointer-events: none;
 				z-index: 2;
-			}
-
-			&.highlighted {
-				/* outline: 1px solid $primary;
-      background-color: $primary; */
-
-				.occupancy-calendar-date svg {
-					opacity: 0.7;
-				}
 			}
 
 			&:disabled,

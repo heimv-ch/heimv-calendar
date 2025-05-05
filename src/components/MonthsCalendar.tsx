@@ -4,20 +4,19 @@ import { defaults } from "../config";
 import type { CalendarBaseProps } from "./Calendar";
 
 type MonthsCalendarProps = CalendarBaseProps & {
-	currentDate: Date;
 	visibleMonths?: number;
 };
 
-export function MonthsCalendar({ currentDate, visibleMonths, ...rest }: MonthsCalendarProps) {
+export function MonthsCalendar({ visibleMonths, ...props }: MonthsCalendarProps) {
 	return (
 		<div className="months-calendar">
 			{eachMonthOfInterval({
-				start: currentDate,
-				end: addMonths(currentDate, (visibleMonths ?? defaults.visibleMonths) - 1),
+				start: props.currentDate,
+				end: addMonths(props.currentDate, (visibleMonths ?? defaults.visibleMonths) - 1),
 			}).map((date) => {
 				const dateString = formatISO(date, { representation: "date" });
 
-				return <CalendarMonth by="week" key={dateString} dateString={dateString} {...rest} />;
+				return <CalendarMonth by="week" key={dateString} dateString={dateString} {...props} />;
 			})}
 		</div>
 	);

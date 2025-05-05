@@ -2,6 +2,7 @@ import type { Occupancy, OccupancySlot } from "../model/occupancy";
 import type { ReactNode } from "react";
 import { MonthsCalendar } from "./MonthsCalendar";
 import { YearCalendar } from "./YearCalendar";
+import { CalendarStateProvider, type DateRange } from "./CalendarStateContext";
 
 export enum CalendarMode {
 	months = "months",
@@ -9,21 +10,32 @@ export enum CalendarMode {
 }
 
 export type CalendarBaseProps = {
+	currentDate: Date;
 	occupancies?: Map<string, OccupancySlot>;
 	disableDate?: (date: Date) => boolean;
-	onDateClick?: (date: Date) => void;
-	getDateHref?: (date: Date) => string;
 	onOccupancyClick?: (occupancy: Occupancy) => void;
 	renderOccupancyPopover?: (occupancy: Occupancy) => ReactNode;
+	onDateClick?: (date: Date) => void;
+	getDateHref?: (date: Date) => string;
 };
 
-export type CalendarProps = CalendarBaseProps & {
+export type CalendarProps = Omit<CalendarBaseProps, "currentDate"> & {
 	mode?: CalendarMode;
 	currentDate?: Date;
 	visibleMonth?: number;
+	onSelectRange?: (range?: DateRange) => void;
+	selectedRange?: DateRange;
 };
 
-export function Calendar({
+export function Calendar({ selectedRange, onSelectRange, ...props }: CalendarProps) {
+	return (
+		<CalendarStateProvider selectedRange={selectedRange} setSelectedRange={onSelectRange}>
+			<CalendarWrapper {...props} />
+		</CalendarStateProvider>
+	);
+}
+
+function CalendarWrapper({
 	currentDate = new Date(),
 	mode = CalendarMode.months,
 	visibleMonth,

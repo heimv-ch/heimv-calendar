@@ -11,10 +11,14 @@ export function MonthsCalendar({ visibleMonths, ...props }: MonthsCalendarProps)
 	return (
 		<div className="months-calendar">
 			{eachMonthOfInterval({
-				start: props.currentDate,
-				end: addMonths(props.currentDate, (visibleMonths ?? defaults.visibleMonths) - 1),
+				start: props.firstDate,
+				end: addMonths(props.firstDate, (visibleMonths ?? defaults.visibleMonths) - 1),
 			}).map((date) => {
 				const dateString = formatISO(date, { representation: "date" });
+
+				if (props.mode === "range") {
+					props;
+				}
 
 				return <CalendarMonth by="week" key={dateString} dateString={dateString} {...props} />;
 			})}

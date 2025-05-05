@@ -4,55 +4,63 @@ import { MonthsCalendar } from "./MonthsCalendar";
 import { YearCalendar } from "./YearCalendar";
 import { CalendarStateProvider, type DateRange } from "./CalendarStateContext";
 
-export enum CalendarMode {
+export enum CalendarViewMode {
 	months = "months",
 	year = "year",
 }
 
-export type CalendarBaseProps = {
-	currentDate: Date;
-	occupancies?: Map<string, OccupancySlot>;
-	disableDate?: (date: Date) => boolean;
+export type CalendarMode = "view" | "interactive" | "range";
+
+type CalendarClickableProps = {
+	mode: "interactive";
 	onOccupancyClick?: (occupancy: Occupancy) => void;
-	renderOccupancyPopover?: (occupancy: Occupancy) => ReactNode;
 	onDateClick?: (date: Date) => void;
 	getDateHref?: (date: Date) => string;
 };
 
-export type CalendarProps = Omit<CalendarBaseProps, "currentDate"> & {
-	mode?: CalendarMode;
-	currentDate?: Date;
-	visibleMonth?: number;
-	onSelectRange?: (range?: DateRange) => void;
+type CalendarRangeSelectProps = {
+	mode: "range";
+	onSelectRange?: (range: DateRange) => void;
 	selectedRange?: DateRange;
 };
 
-export function Calendar({ selectedRange, onSelectRange, ...props }: CalendarProps) {
-	return (
-		<CalendarStateProvider selectedRange={selectedRange} setSelectedRange={onSelectRange}>
-			<CalendarWrapper {...props} />
-		</CalendarStateProvider>
-	);
-}
+type CalendarModeProps = CalendarClickableProps | CalendarRangeSelectProps | { mode: "view" };
 
-function CalendarWrapper({
-	currentDate = new Date(),
-	mode = CalendarMode.months,
-	visibleMonth,
-	...calendarBaseProps
-}: CalendarProps) {
-	const commonCalendarProps = { currentDate, ...calendarBaseProps };
+export type CalendarBaseProps = {
+	firstDate: Date;
+	occupancies?: Map<string, OccupancySlot>;
+	disableDate?: (date: Date) => boolean;
+	renderOccupancyPopover?: (occupancy: Occupancy) => ReactNode;
+} & CalendarModeProps;
+
+export type CalendarProps<M extends CalendarMode> = CalendarBaseProps & {
+	mode?: M;
+	viewMode?: CalendarViewMode;
+	visibleMonth?: number;
+} & CalendarModeProps;
+
+export function Calendar<M extends CalendarMode = "view">(props: CalendarProps<M>) {
+	const { viewMode = CalendarViewMode.months, visibleMonth, ...calendarBaseProps } = props;
 
 	const renderCalendar = () => {
-		switch (mode) {
-			case CalendarMode.months:
-				return <MonthsCalendar {...commonCalendarProps} visibleMonths={visibleMonth} />;
-			case CalendarMode.year:
-				return <YearCalendar {...commonCalendarProps} />;
+		switch (viewMode) {
+			case CalendarViewMode.months:
+				return <MonthsCalendar {...calendarBaseProps} visibleMonths={visibleMonth} />;
+			case CalendarViewMode.year:
+				return <YearCalendar {...calendarBaseProps} />;
 			default:
 				break;
 		}
 	};
 
-	return <div className="calendar">{renderCalendar()}</div>;
+	return (
+		<CalendarStateProvider
+			selectedRange={props.mode === "range" ? (props as CalendarRangeSelectProps).selectedRange : undefined}
+			setSelectedRange={props.mode === "range" ? (props as CalendarRangeSelectProps).onSelectRange : undefined}
+		>
+			<div className="calendar">{renderCalendar()}</div>
+		</CalendarStateProvider>
+	);
 }
+
+Calendar.defaultProps = { mode: "view", firstDate: new Date() };

@@ -8,16 +8,9 @@ type CalendarMonthProps = CalendarBaseProps & {
 	by: "week" | "day";
 };
 
-export function CalendarMonth({
-	dateString,
-	by,
-	occupancies,
-	disableDate,
-	onDateClick,
-	getDateHref,
-	onOccupancyClick,
-	renderOccupancyPopover,
-}: CalendarMonthProps) {
+export function CalendarMonth(props: CalendarMonthProps) {
+	const { mode, dateString, by, occupancies, disableDate, renderOccupancyPopover } = props;
+
 	const monthStart = startOfMonth(parseISO(dateString));
 	const monthStartsAfter = (getDay(monthStart) + 6) % 7;
 
@@ -26,12 +19,12 @@ export function CalendarMonth({
 
 		return {
 			dateString: dateString,
-			onClick: onDateClick,
-			href: getDateHref?.(date),
 			disabled: disableDate?.(date),
 			occupancySlot: occupancies?.get(dateString),
-			onClickOccupancy: onOccupancyClick,
 			renderOccupancyPopover: renderOccupancyPopover,
+			...(mode === "interactive"
+				? { onClick: props.onDateClick, href: props.getDateHref?.(date), onClickOccupancy: props.onOccupancyClick }
+				: {}),
 		};
 	};
 

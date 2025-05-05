@@ -1,5 +1,5 @@
 import { addDays, formatISO } from "date-fns";
-import { Calendar, CalendarMode } from "./components/Calendar";
+import { Calendar, CalendarViewMode } from "./components/Calendar";
 import { useState } from "react";
 import type { DateRange } from "./components/CalendarStateContext";
 
@@ -14,13 +14,13 @@ function App() {
 	const plus7 = formatISO(addDays(new Date(), 7), { representation: "date" });
 	const plus8 = formatISO(addDays(new Date(), 8), { representation: "date" });
 
-	const [selectedRange, setSelectedRange] = useState<DateRange | undefined>([addDays(new Date(), 5), undefined]);
+	const [selectedRange, setSelectedRange] = useState<DateRange>([addDays(new Date(), 5), undefined]);
 
 	return (
 		<>
 			<h1>Calendar Playground</h1>
 			<Calendar
-				mode={CalendarMode.months}
+				viewMode={CalendarViewMode.months}
 				occupancies={
 					new Map([
 						[today, { allDay: { key: "alkdfjllasdjfdlkasjadslfjasdlkjasdlkjkf" } }],
@@ -36,9 +36,12 @@ function App() {
 					])
 				}
 				disableDate={(date) => date < new Date()}
-				onOccupancyClick={console.log}
-				onSelectRange={setSelectedRange}
-				selectedRange={selectedRange}
+				// type="interactive"
+				// onDateClick={console.log}
+				// selectedRange={selectedRange}
+				// onOccupancyClick={console.log}
+				// onDateClick={console.log}
+				visibleMonth={8}
 				// getDateHref={(date) => `https://google.ch/${date}`}
 				renderOccupancyPopover={({ key }) => (
 					<div

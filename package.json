@@ -1,16 +1,25 @@
 {
 	"name": "heimv-calendar",
-	"private": true,
-	"version": "0.0.0",
+	"version": "0.1.0",
+	"description": "Occupancy calendar used by HeimV Tool.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/heimv-ch/heimv-calendar"
+	},
 	"type": "module",
+	"main": "./index.umd.js",
+	"typings": "./index.d.ts",
+	"module": "./index.es.js",
 	"scripts": {
 		"dev": "vite --host",
-		"build": "tsc -b && vite build",
+		"build": "vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
 		"@floating-ui/react": "^0.27.8",
-		"date-fns": "^4.1.0",
+		"date-fns": "^4.1.0"
+	},
+	"peerDependencies": {
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0"
 	},
@@ -22,6 +31,7 @@
 		"@vitejs/plugin-react": "^4.3.4",
 		"globals": "^16.0.0",
 		"typescript": "~5.7.2",
-		"vite": "^6.3.1"
+		"vite": "^6.3.1",
+		"vite-plugin-dts": "^4.5.3"
 	}
 }

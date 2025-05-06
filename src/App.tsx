@@ -1,20 +1,20 @@
 import { addDays, addMonths, formatISO, subMonths } from "date-fns";
 import { Calendar, CalendarViewMode } from "./components/Calendar";
 import { useState } from "react";
-import type { DateRange } from "./components/CalendarStateContext";
+// import type { DateRange } from "./components/CalendarStateContext";
 
 function App() {
 	const today = formatISO(new Date(), { representation: "date" });
-	const plus1 = formatISO(addDays(new Date(), 1), { representation: "date" });
+	// const plus1 = formatISO(addDays(new Date(), 1), { representation: "date" });
 	const plus2 = formatISO(addDays(new Date(), 2), { representation: "date" });
 	const plus3 = formatISO(addDays(new Date(), 3), { representation: "date" });
 	const plus4 = formatISO(addDays(new Date(), 4), { representation: "date" });
-	const plus5 = formatISO(addDays(new Date(), 5), { representation: "date" });
-	const plus6 = formatISO(addDays(new Date(), 6), { representation: "date" });
-	const plus7 = formatISO(addDays(new Date(), 7), { representation: "date" });
+	// const plus5 = formatISO(addDays(new Date(), 5), { representation: "date" });
+	// const plus6 = formatISO(addDays(new Date(), 6), { representation: "date" });
+	// const plus7 = formatISO(addDays(new Date(), 7), { representation: "date" });
 	const plus8 = formatISO(addDays(new Date(), 8), { representation: "date" });
 
-	const [selectedRange, setSelectedRange] = useState<DateRange>([addDays(new Date(), 5), undefined]);
+	// const [selectedRange, setSelectedRange] = useState<DateRange>([addDays(new Date(), 5), undefined]);
 
 	const [firstDate, setFirstDate] = useState(new Date());
 

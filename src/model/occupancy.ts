@@ -1,10 +1,11 @@
-export type Occupancy = {
-  key: string;
-  color?: string;
-}
+export type Occupancy<O> = {
+	key: string;
+	color?: string;
+	data?: O;
+};
 
-export type OccupancySlot = {
-  allDay?: Occupancy,
-  forenoon?: Occupancy,
-  afternoon?: Occupancy
-}
+export type OccupancySlot<O> = {
+	allDay?: Occupancy<O>;
+	forenoon?: Occupancy<O>;
+	afternoon?: Occupancy<O>;
+};

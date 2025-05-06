@@ -11,9 +11,9 @@ export enum CalendarViewMode {
 
 export type CalendarMode = "view" | "interactive" | "range";
 
-type CalendarClickableProps = {
+type CalendarClickableProps<O> = {
 	mode: "interactive";
-	onOccupancyClick?: (occupancy: Occupancy) => void;
+	onOccupancyClick?: (occupancy: Occupancy<O>) => void;
 	onDateClick?: (date: Date) => void;
 	getDateHref?: (date: Date) => string;
 };
@@ -24,22 +24,22 @@ type CalendarRangeSelectProps = {
 	selectedRange?: DateRange;
 };
 
-type CalendarModeProps = CalendarClickableProps | CalendarRangeSelectProps | { mode: "view" };
+type CalendarModeProps<O> = CalendarClickableProps<O> | CalendarRangeSelectProps | { mode: "view" };
 
-export type CalendarBaseProps = {
+export type CalendarBaseProps<O> = {
 	firstDate: Date;
-	occupancies?: Map<string, OccupancySlot>;
+	occupancies?: Map<string, OccupancySlot<O>>;
 	disableDate?: (date: Date) => boolean;
-	renderOccupancyPopover?: (occupancy: Occupancy) => ReactNode;
-} & CalendarModeProps;
+	renderOccupancyPopover?: (occupancy: Occupancy<O>) => ReactNode;
+} & CalendarModeProps<O>;
 
-export type CalendarProps<M extends CalendarMode> = CalendarBaseProps & {
+export type CalendarProps<M extends CalendarMode, O> = CalendarBaseProps<O> & {
 	mode?: M;
 	viewMode?: CalendarViewMode;
 	visibleMonth?: number;
-} & CalendarModeProps;
+} & CalendarModeProps<O>;
 
-export function Calendar<M extends CalendarMode = "view">(props: CalendarProps<M>) {
+export function Calendar<O, M extends CalendarMode = "view">(props: CalendarProps<M, O>) {
 	const { viewMode = CalendarViewMode.months, visibleMonth, firstDate = new Date(), ...calendarBaseProps } = props;
 
 	const commonCalendarProps = { firstDate, ...calendarBaseProps };

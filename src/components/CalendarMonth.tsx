@@ -3,18 +3,18 @@ import { CalendarDate, type CalendarDateProps } from "./CalendarDate";
 import { formatMonth, formattedWeekdays } from "../helper/format";
 import type { CalendarBaseProps } from "./Calendar";
 
-type CalendarMonthProps = CalendarBaseProps & {
+type CalendarMonthProps<O> = CalendarBaseProps<O> & {
 	dateString: string;
 	by: "week" | "day";
 };
 
-export function CalendarMonth(props: CalendarMonthProps) {
+export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
 	const { mode, dateString, by, occupancies, disableDate, renderOccupancyPopover } = props;
 
 	const monthStart = startOfMonth(parseISO(dateString));
 	const monthStartsAfter = (getDay(monthStart) + 6) % 7;
 
-	const getCommonCalendarDateProps = (date: Date): CalendarDateProps => {
+	const getCommonCalendarDateProps = (date: Date): CalendarDateProps<O> => {
 		const dateString = formatISO(date, { representation: "date" });
 
 		return {

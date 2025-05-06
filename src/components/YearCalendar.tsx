@@ -2,9 +2,9 @@ import { addMonths, eachMonthOfInterval, formatISO } from "date-fns";
 import { CalendarMonth } from "./CalendarMonth";
 import type { CalendarBaseProps } from "./Calendar";
 
-type YearCalendarProps = CalendarBaseProps;
+type YearCalendarProps<O> = CalendarBaseProps<O>;
 
-export function YearCalendar(props: YearCalendarProps) {
+export function YearCalendar<O>(props: YearCalendarProps<O>) {
 	return (
 		<div className="year-calendar">
 			<header className="month">

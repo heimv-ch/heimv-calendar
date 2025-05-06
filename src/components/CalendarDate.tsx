@@ -17,18 +17,18 @@ const isHovered = (date: Date, [start, end]: DateRange = [undefined, undefined],
 	return isSameDay(date, hovered);
 };
 
-export type CalendarDateProps = {
+export type CalendarDateProps<O> = {
 	dateString: string;
 	renderLabel?: (date: Date) => string;
 	disabled?: boolean;
 	onClick?: (date: Date) => void;
 	href?: string;
-	onClickOccupancy?: (occupancy: Occupancy) => void;
-	occupancySlot?: OccupancySlot;
-	renderOccupancyPopover?: (occupancy: Occupancy) => ReactNode;
+	onClickOccupancy?: (occupancy: Occupancy<O>) => void;
+	occupancySlot?: OccupancySlot<O>;
+	renderOccupancyPopover?: (occupancy: Occupancy<O>) => ReactNode;
 };
 
-export function CalendarDate({
+export function CalendarDate<O>({
 	dateString,
 	renderLabel,
 	occupancySlot,
@@ -37,7 +37,7 @@ export function CalendarDate({
 	onClick,
 	onClickOccupancy,
 	renderOccupancyPopover,
-}: CalendarDateProps) {
+}: CalendarDateProps<O>) {
 	const date = parseISO(dateString);
 
 	const { handleSetHoveredDate, toggleSelectionRange, hoveredDate, selectedRange } = use(CalendarStateContext);

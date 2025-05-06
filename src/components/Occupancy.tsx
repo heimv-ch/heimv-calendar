@@ -3,14 +3,14 @@ import type { Occupancy as OccupancyType, OccupancySlot } from "../model/occupan
 import { type ReactNode, useState } from "react";
 import { defaults } from "../config";
 
-type OccupancyProps = {
-	type: keyof OccupancySlot;
-	occupancy: OccupancyType;
-	renderPopover?: (occupancy: OccupancyType) => ReactNode;
+type OccupancyProps<O> = {
+	type: keyof OccupancySlot<O>;
+	occupancy: OccupancyType<O>;
+	renderPopover?: (occupancy: OccupancyType<O>) => ReactNode;
 	onClick?: () => void;
 };
 
-export function Occupancy({ type, occupancy, renderPopover, onClick }: OccupancyProps) {
+export function Occupancy<O>({ type, occupancy, renderPopover, onClick }: OccupancyProps<O>) {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const { refs, context, floatingStyles } = useFloating({

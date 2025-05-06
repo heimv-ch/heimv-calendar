@@ -3,11 +3,11 @@ import { CalendarMonth } from "./CalendarMonth";
 import { defaults } from "../config";
 import type { CalendarBaseProps } from "./Calendar";
 
-type MonthsCalendarProps = CalendarBaseProps & {
+type MonthsCalendarProps<O> = CalendarBaseProps<O> & {
 	visibleMonths?: number;
 };
 
-export function MonthsCalendar({ visibleMonths, ...props }: MonthsCalendarProps) {
+export function MonthsCalendar<O>({ visibleMonths, ...props }: MonthsCalendarProps<O>) {
 	return (
 		<div className="months-calendar">
 			{eachMonthOfInterval({

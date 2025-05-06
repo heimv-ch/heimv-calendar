@@ -2,17 +2,17 @@ import type { Occupancy as OccupancyType, OccupancySlot as OccupancySlotType } f
 import type { ReactNode } from "react";
 import { Occupancy } from "./Occupancy";
 
-type OccupancySlotProps = {
-	occupancySlot: OccupancySlotType;
-	onClick?: (occupancy: OccupancyType) => void;
-	renderPopover?: (occupancy: OccupancyType) => ReactNode;
+type OccupancySlotProps<O> = {
+	occupancySlot: OccupancySlotType<O>;
+	onClick?: (occupancy: OccupancyType<O>) => void;
+	renderPopover?: (occupancy: OccupancyType<O>) => ReactNode;
 };
 
-export function OccupancySlot({
+export function OccupancySlot<O>({
 	onClick,
 	occupancySlot: { allDay, forenoon, afternoon },
 	renderPopover,
-}: OccupancySlotProps) {
+}: OccupancySlotProps<O>) {
 	return (
 		<>
 			{allDay ? (

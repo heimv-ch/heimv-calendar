@@ -145,11 +145,6 @@ body {
 			svg {
 				opacity: 0.7;
 				cursor: default;
-
-				/* rect,
-				polygon {
-					pointer-events: none !important;
-				} */
 			}
 		}
 
@@ -160,7 +155,7 @@ body {
 		&:disabled,
 		&[aria-disabled="true"] {
 			cursor: default;
-			background: none;
+			background-color: transparent !important;
 			time {
 				color: #777;
 			}

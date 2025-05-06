@@ -45,8 +45,8 @@ export function CalendarDate({
 	const isToday = isSameDay(date, new Date());
 	const isInteractive = !!onClick || !!href || !!onClickOccupancy;
 	const hasOccupancies = !!occupancySlot;
-	const selected = isSelected(date, selectedRange);
-	const hovered = isHovered(date, selectedRange, hoveredDate);
+	const selected = !!selectedRange && isSelected(date, selectedRange);
+	const hovered = !!selectedRange && isHovered(date, selectedRange, hoveredDate);
 
 	const className = resolveClassNames({
 		date: true,

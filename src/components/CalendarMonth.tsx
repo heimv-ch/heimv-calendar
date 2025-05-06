@@ -33,7 +33,9 @@ export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
 			{by === "week" ? (
 				<>
 					<header>
-						<h3>{formatMonth(monthStart)}</h3>
+						<h3>
+							{formatMonth(monthStart)} {monthStart.getFullYear()}
+						</h3>
 						<div className="weekdays">
 							{formattedWeekdays.map((day, index) => (
 								<div key={`weekday-${index + 1}`}>{day}</div>

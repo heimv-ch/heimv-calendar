@@ -10,6 +10,12 @@ type OccupancyProps<O> = {
 	onClick?: () => void;
 };
 
+const occupancyTypeClassNames: Record<OccupancyProps<unknown>["type"], string> = {
+	allDay: "all-day",
+	afternoon: "afternoon",
+	forenoon: "forenoon",
+};
+
 export function Occupancy<O>({ type, occupancy, renderPopover, onClick }: OccupancyProps<O>) {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -50,10 +56,12 @@ export function Occupancy<O>({ type, occupancy, renderPopover, onClick }: Occupa
 
 	return (
 		<>
-			<svg viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
+			<svg className={occupancyTypeClassNames[type]} viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
 				<title>{type}</title>
 				{getSlot()}
 			</svg>
+			{occupancy.amount && <span className="occupancy-amount">{occupancy.amount}</span>}
+
 			{isOpen && (
 				<div ref={refs.setFloating} {...getFloatingProps()} style={floatingStyles} className="occupancy-popover">
 					{renderPopover?.(occupancy)}

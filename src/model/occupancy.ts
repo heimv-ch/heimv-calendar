@@ -1,6 +1,7 @@
 export type Occupancy<O> = {
 	key: string;
 	color?: string;
+	amount?: number;
 	data?: O;
 };
 

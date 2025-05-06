@@ -189,6 +189,27 @@ body {
 					fill: transparent;
 				}
 			}
+
+			&.afternoon + .occupancy-amount,
+			&.all-day + .occupancy-amount {
+				right: .9px;
+				bottom: .9px;
+			}
+
+			&.forenoon + .occupancy-amount {
+				left: .9px;
+				top: .9px;
+			}
+		}
+
+		.occupancy-amount {
+			position: absolute;
+			font-size: .7rem;
+			z-index: 3;
+			background-color: rgba(255, 255, 255, 0.7);
+			pointer-events: none;
+			padding-inline: 1px;
+			line-height: 1;
 		}
 	}
 

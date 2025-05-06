@@ -40,14 +40,16 @@ export type CalendarProps<M extends CalendarMode> = CalendarBaseProps & {
 } & CalendarModeProps;
 
 export function Calendar<M extends CalendarMode = "view">(props: CalendarProps<M>) {
-	const { viewMode = CalendarViewMode.months, visibleMonth, ...calendarBaseProps } = props;
+	const { viewMode = CalendarViewMode.months, visibleMonth, firstDate = new Date(), ...calendarBaseProps } = props;
+
+	const commonCalendarProps = { firstDate, ...calendarBaseProps };
 
 	const renderCalendar = () => {
 		switch (viewMode) {
 			case CalendarViewMode.months:
-				return <MonthsCalendar {...calendarBaseProps} visibleMonths={visibleMonth} />;
+				return <MonthsCalendar {...commonCalendarProps} visibleMonths={visibleMonth} />;
 			case CalendarViewMode.year:
-				return <YearCalendar {...calendarBaseProps} />;
+				return <YearCalendar {...commonCalendarProps} />;
 			default:
 				break;
 		}

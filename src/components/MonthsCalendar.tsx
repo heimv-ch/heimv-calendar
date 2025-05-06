@@ -16,10 +16,6 @@ export function MonthsCalendar({ visibleMonths, ...props }: MonthsCalendarProps)
 			}).map((date) => {
 				const dateString = formatISO(date, { representation: "date" });
 
-				if (props.mode === "range") {
-					props;
-				}
-
 				return <CalendarMonth by="week" key={dateString} dateString={dateString} {...props} />;
 			})}
 		</div>

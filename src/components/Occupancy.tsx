@@ -26,8 +26,10 @@ export function Occupancy({ type, occupancy, renderPopover, onClick }: Occupancy
 
 	const props: React.SVGProps<SVGRectElement & SVGPolygonElement> = {
 		onClick: (e) => {
+			if (!onClick) return;
+
 			e.stopPropagation();
-			onClick?.();
+			onClick();
 		},
 		fill: occupancy.color ?? defaults.color,
 		tabIndex: 0,

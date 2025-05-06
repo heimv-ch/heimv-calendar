@@ -16,14 +16,19 @@ export function OccupancySlot({
 	return (
 		<>
 			{allDay ? (
-				<Occupancy occupancy={allDay} type="allDay" onClick={() => onClick?.(allDay)} renderPopover={renderPopover} />
+				<Occupancy
+					occupancy={allDay}
+					type="allDay"
+					onClick={onClick ? () => onClick(allDay) : undefined}
+					renderPopover={renderPopover}
+				/>
 			) : (
 				<>
 					{forenoon && (
 						<Occupancy
 							occupancy={forenoon}
 							type="forenoon"
-							onClick={() => onClick?.(forenoon)}
+							onClick={onClick ? () => onClick(forenoon) : undefined}
 							renderPopover={renderPopover}
 						/>
 					)}
@@ -31,7 +36,7 @@ export function OccupancySlot({
 						<Occupancy
 							occupancy={afternoon}
 							type="afternoon"
-							onClick={() => onClick?.(afternoon)}
+							onClick={onClick ? () => onClick?.(afternoon) : undefined}
 							renderPopover={renderPopover}
 						/>
 					)}

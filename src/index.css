@@ -122,61 +122,58 @@ body {
 			pointer-events: none;
 		}
 
-		a,
-		button {
-			display: grid;
-			height: 100%;
-			width: 100%;
-			place-content: center;
+		&.interactive {
+			cursor: pointer;
 
-			time {
-				pointer-events: none;
-				z-index: 2;
-			}
-
-			&.interactive {
-				cursor: pointer;
-
-				button,
-				a {
-					&:hover,
-					&:focus {
-						background-color: rgba(0, 0, 0, 0.1);
-					}
-				}
-			}
-
-			&.hovered,
-			&.selected {
-				background-color: var(--calendar-date-selected-color);
-				&:hover {
-					background-color: var(--calendar-date-hovered-color);
-				}
-
-				time {
-					color: white;
-				}
-
-				svg {
-					opacity: 0.7;
-				}
-			}
-
-			&.hovered {
-				background-color: var(--calendar-date-hovered-color);
-			}
-
-			&:disabled,
-			&[aria-disabled="true"] {
-				cursor: default;
-				background: none;
-				time {
-					color: #777;
-				}
+			&:hover,
+			&:focus {
+				background-color: rgba(0, 0, 0, 0.1);
 			}
 		}
 
+		&.hovered,
+		&.selected {
+			background-color: var(--calendar-date-selected-color);
+			&:hover {
+				background-color: var(--calendar-date-hovered-color);
+			}
+
+			time {
+				color: white;
+			}
+
+			svg {
+				opacity: 0.7;
+				cursor: default;
+
+				/* rect,
+				polygon {
+					pointer-events: none !important;
+				} */
+			}
+		}
+
+		&.hovered {
+			background-color: var(--calendar-date-hovered-color);
+		}
+
+		&:disabled,
+		&[aria-disabled="true"] {
+			cursor: default;
+			background: none;
+			time {
+				color: #777;
+			}
+		}
+
+		time {
+			pointer-events: none;
+			position: relative;
+			z-index: 2;
+		}
+
 		svg {
+			padding: 1px;
 			cursor: pointer;
 			overflow: clip;
 			position: absolute;
@@ -197,11 +194,6 @@ body {
 					fill: transparent;
 				}
 			}
-		}
-
-		&:focus-visible .occupancy-popover,
-		&:hover .occupancy-popover {
-			display: block;
 		}
 	}
 

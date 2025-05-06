@@ -48,43 +48,24 @@ export function CalendarDate({
 	const selected = isSelected(date, selectedRange);
 	const hovered = isHovered(date, selectedRange, hoveredDate);
 
-	const renderDate = () => <time dateTime={dateString}>{renderLabel?.(date) ?? getDate(date)}</time>;
-
-	const dateClassNames = resolveClassNames({
+	const className = resolveClassNames({
 		date: true,
 		today: isToday,
 		"has-occupancies": hasOccupancies,
-	});
-
-	const buttonClassNames = resolveClassNames({
 		interactive: isInteractive,
 		selected: selected,
 		hovered: hovered,
 	});
 
-	return (
-		<div
-			onMouseEnter={() => handleSetHoveredDate(date)}
-			onMouseLeave={() => handleSetHoveredDate(undefined)}
-			className={dateClassNames}
-		>
-			{href ? (
-				<a className={buttonClassNames} aria-disabled={disabled} href={disabled ? undefined : href}>
-					{renderDate()}
-				</a>
-			) : (
-				<button
-					className={buttonClassNames}
-					disabled={disabled}
-					onClick={() => {
-						toggleSelectionRange(date);
-						onClick?.(date);
-					}}
-				>
-					{renderDate()}
-				</button>
-			)}
+	const buttonProps = {
+		onMouseEnter: () => handleSetHoveredDate(date),
+		onMouseLeave: () => handleSetHoveredDate(undefined),
+		className,
+	};
 
+	const renderContent = () => (
+		<>
+			<time dateTime={dateString}>{renderLabel?.(date) ?? getDate(date)}</time>
 			{occupancySlot && (
 				<OccupancySlotComponent
 					occupancySlot={occupancySlot}
@@ -92,6 +73,23 @@ export function CalendarDate({
 					renderPopover={renderOccupancyPopover}
 				/>
 			)}
-		</div>
+		</>
+	);
+
+	return href ? (
+		<a {...buttonProps} aria-disabled={disabled} href={disabled ? undefined : href}>
+			{renderContent()}
+		</a>
+	) : (
+		<button
+			{...buttonProps}
+			disabled={disabled}
+			onClick={() => {
+				toggleSelectionRange(date);
+				onClick?.(date);
+			}}
+		>
+			{renderContent()}
+		</button>
 	);
 }

@@ -1,6 +1,6 @@
 {
 	"name": "heimv-calendar",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "Occupancy calendar used by HeimV Tool.",
 	"repository": {
 		"type": "git",

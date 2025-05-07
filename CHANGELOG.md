@@ -1,5 +1,15 @@
 # heimv-calendar
 
+## 0.3.0
+
+### Minor Changes
+
+- d59ca4a: Allow color theming
+
+### Patch Changes
+
+- 0ca335e: Improve bundle size
+
 ## 0.1.0
 
 First Release!

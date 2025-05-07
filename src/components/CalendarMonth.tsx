@@ -9,7 +9,7 @@ import {
 	startOfMonth,
 } from "date-fns";
 import { CalendarDate, type CalendarDateProps } from "./CalendarDate";
-import { formatMonth, formattedWeekdays } from "../helper/format";
+import { formatMonth, formattedWeekdays, narrowFormattedWeekdays } from "../helper/format";
 import type { CalendarBaseProps } from "./Calendar";
 import { CalendarStateContext, type DateRange } from "./CalendarStateContext";
 import { use, useMemo } from "react";
@@ -95,7 +95,7 @@ export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
 					{daysInMonth.map((date) => (
 						<CalendarDate
 							key={date.toISOString()}
-							renderLabel={() => formattedWeekdays[(getDay(date) + 6) % 7]}
+							renderLabel={() => narrowFormattedWeekdays[(getDay(date) + 6) % 7]}
 							{...getCommonCalendarDateProps(date)}
 						/>
 					))}

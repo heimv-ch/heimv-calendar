@@ -122,6 +122,10 @@ body {
 			pointer-events: none;
 		}
 
+		&.weekend {
+			background-color: rgba(0, 0, 0, 0.05);
+		}
+
 		&.interactive {
 			cursor: pointer;
 

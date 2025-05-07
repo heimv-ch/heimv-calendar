@@ -8,6 +8,7 @@ export type CalendarDateProps<O> = {
 	dateString: string;
 	renderLabel?: (date: Date) => string;
 	disabled?: boolean;
+	isWeekend?: boolean;
 	isInHoveredRange?: boolean;
 	isInSelectedRange?: boolean;
 	onHoverChange?: (date?: Date) => void;
@@ -23,6 +24,7 @@ function _CalendarDate<O>({
 	renderLabel,
 	occupancySlot,
 	disabled,
+	isWeekend,
 	isInHoveredRange,
 	isInSelectedRange,
 	href,
@@ -44,6 +46,7 @@ function _CalendarDate<O>({
 		interactive: isInteractive,
 		selected: !!isInSelectedRange,
 		hovered: !!isInHoveredRange,
+		weekend: !!isWeekend,
 	});
 
 	const buttonProps = {

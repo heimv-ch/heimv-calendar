@@ -28,6 +28,7 @@ type CalendarModeProps<O> = CalendarClickableProps<O> | CalendarRangeSelectProps
 
 export type CalendarBaseProps<O> = {
 	firstDate: Date;
+	highlightWeekends?: boolean;
 	occupancies?: Map<string, OccupancySlot<O>>;
 	disableDate?: (date: Date) => boolean;
 	renderOccupancyPopover?: (occupancy: Occupancy<O>) => ReactNode;
@@ -40,9 +41,15 @@ export type CalendarProps<M extends CalendarMode, O> = CalendarBaseProps<O> & {
 } & CalendarModeProps<O>;
 
 export function Calendar<O, M extends CalendarMode = "view">(props: CalendarProps<M, O>) {
-	const { viewMode = CalendarViewMode.months, visibleMonth, firstDate = new Date(), ...calendarBaseProps } = props;
+	const {
+		viewMode = CalendarViewMode.months,
+		visibleMonth,
+		firstDate = new Date(),
+		highlightWeekends = true,
+		...calendarBaseProps
+	} = props;
 
-	const commonCalendarProps = { firstDate, ...calendarBaseProps };
+	const commonCalendarProps = { firstDate, highlightWeekends, ...calendarBaseProps };
 
 	const renderCalendar = () => {
 		switch (viewMode) {

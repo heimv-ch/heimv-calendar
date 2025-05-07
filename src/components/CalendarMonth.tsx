@@ -32,7 +32,7 @@ type CalendarMonthProps<O> = CalendarBaseProps<O> & {
 };
 
 export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
-	const { mode, dateString, by, occupancies, disableDate, renderOccupancyPopover } = props;
+	const { mode, dateString, by, occupancies, disableDate, highlightWeekends, renderOccupancyPopover } = props;
 
 	const { hoveredDate, selectedRange, handleSetHoveredDate, toggleSelectionRange } = use(CalendarStateContext);
 
@@ -50,6 +50,7 @@ export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
 		return {
 			dateString,
 			disabled: disableDate?.(date),
+			isWeekend: highlightWeekends && !(date.getDay() % 6),
 			occupancySlot: occupancies?.get(dateString),
 			renderOccupancyPopover: renderOccupancyPopover,
 			...(mode === "interactive"
@@ -81,7 +82,7 @@ export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
 						</div>
 					</header>
 					<div className="dates">
-						<div style={{ gridColumn: `span ${monthStartsAfter}` }} />
+						{!!monthStartsAfter && <div style={{ gridColumn: `span ${monthStartsAfter}` }} />}
 
 						{daysInMonth.map((date) => (
 							<CalendarDate<O> key={date.toISOString()} {...getCommonCalendarDateProps(date)} />

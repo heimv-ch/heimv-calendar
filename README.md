@@ -89,6 +89,7 @@ const occupancies: Map<string, OccupancySlot<{ additionalData: string }>> = new 
 | mode                   | `"view"` \| `"interactive"` \| `"range"` | Represents the calendar's mode                                         | `"view"`     |
 | viewMode               | `"months"` \| `"year"`                   | The current visual display mode of the calendar                        | `"months"`   |
 | visibleMonth           | `number`                                 | Defines how many months should be displayed (only for `"months"` view) | `8`          |
+| defaultColor           | `string`                                 | The default color for occupancies                                      | `#e85f5f`    |
 | highlightWeekends      | `boolean`                                | Defines wether to visually highlight the dates on the weekends         | `true`       |
 | occupancies            | `Map<string, OccupancySlot>`             | A map of occupancy slots by date key (e.g., `"2025-05-07"`)            | -            |
 | disableDate            | `(date: Date) => boolean`                | Function to determine if a date should be disabled                     | —            |
@@ -124,3 +125,19 @@ const [selectedRange, setSelectedRange] = useState<DateRange>([new Date(), undef
 
 <Calendar mode="range" selectedRange={selectedRange} onSelectRange={setSelectedRange} />
 ```
+
+### Theming
+
+The component can be color themed by overwriting a few css variables.
+
+This is the default config:
+
+```css
+:root {
+	--calendar-occupancy-color: #e85f5f;
+	--calendar-date-selected-color: #30388e;
+	--calendar-date-hovered-color: rgb(from var(--calendar-date-selected-color) r g b / 70%);
+}
+```
+
+> Note: if you want to change the default occupancy color per calendar, there is a `defaultColor` prop on the component.

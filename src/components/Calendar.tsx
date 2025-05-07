@@ -37,6 +37,7 @@ export type CalendarBaseProps<O> = {
 export type CalendarProps<M extends CalendarMode, O> = CalendarBaseProps<O> & {
 	mode?: M;
 	viewMode?: CalendarViewMode;
+	defaultColor?: string;
 	visibleMonth?: number;
 } & CalendarModeProps<O>;
 
@@ -46,6 +47,7 @@ export function Calendar<O, M extends CalendarMode = "view">(props: CalendarProp
 		visibleMonth,
 		firstDate = new Date(),
 		highlightWeekends = true,
+		defaultColor,
 		...calendarBaseProps
 	} = props;
 
@@ -66,6 +68,7 @@ export function Calendar<O, M extends CalendarMode = "view">(props: CalendarProp
 		<CalendarStateProvider
 			selectedRange={props.mode === "range" ? (props as CalendarRangeSelectProps).selectedRange : undefined}
 			setSelectedRange={props.mode === "range" ? (props as CalendarRangeSelectProps).onSelectRange : undefined}
+			defaultColor={defaultColor}
 		>
 			<div className="calendar">{renderCalendar()}</div>
 		</CalendarStateProvider>

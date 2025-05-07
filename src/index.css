@@ -1,6 +1,7 @@
 :root {
-	--calendar-date-selected-color: blue;
-	--calendar-date-hovered-color: rgba(0, 0, 255, 0.5);
+	--calendar-occupancy-color: #e85f5f;
+	--calendar-date-selected-color: #30388e;
+	--calendar-date-hovered-color: rgb(from var(--calendar-date-selected-color) r g b / 70%);
 }
 
 body {
@@ -190,7 +191,7 @@ body {
 				}
 
 				&:not([fill]) {
-					fill: transparent;
+					fill: var(--calendar-occupancy-color);
 				}
 			}
 

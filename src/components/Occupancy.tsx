@@ -1,7 +1,7 @@
 import { autoPlacement, useFloating, useFocus, useHover, useInteractions } from "@floating-ui/react";
 import type { Occupancy as OccupancyType, OccupancySlot } from "../model/occupancy";
-import { type ReactNode, useState } from "react";
-import { defaults } from "../config";
+import { type ReactNode, use, useState } from "react";
+import { CalendarStateContext } from "./CalendarStateContext";
 
 type OccupancyProps<O> = {
 	type: keyof OccupancySlot<O>;
@@ -18,6 +18,8 @@ const occupancyTypeClassNames: Record<OccupancyProps<unknown>["type"], string> =
 
 export function Occupancy<O>({ type, occupancy, renderPopover, onClick }: OccupancyProps<O>) {
 	const [isOpen, setIsOpen] = useState(false);
+
+	const { defaultColor } = use(CalendarStateContext);
 
 	const { refs, context, floatingStyles } = useFloating({
 		open: isOpen,
@@ -37,7 +39,7 @@ export function Occupancy<O>({ type, occupancy, renderPopover, onClick }: Occupa
 			e.stopPropagation();
 			onClick();
 		},
-		fill: occupancy.color ?? defaults.color,
+		fill: occupancy.color ?? defaultColor,
 		tabIndex: 0,
 		ref: refs.setReference,
 		...getReferenceProps(),

@@ -7,6 +7,7 @@ type CalendarState = {
 	toggleSelectionRange: (date: Date) => void;
 	hoveredDate?: Date;
 	handleSetHoveredDate: (date?: Date) => void;
+	defaultColor?: string;
 };
 
 export const CalendarStateContext = createContext<CalendarState>({
@@ -17,12 +18,14 @@ export const CalendarStateContext = createContext<CalendarState>({
 type CalendarStateProviderProps = {
 	selectedRange?: DateRange;
 	setSelectedRange?: (range: DateRange) => void;
+	defaultColor?: string;
 };
 
 export function CalendarStateProvider({
 	children,
 	selectedRange,
 	setSelectedRange,
+	defaultColor,
 }: PropsWithChildren<CalendarStateProviderProps>) {
 	const [hoveredDate, setHoveredDate] = useState<Date>();
 	const hoverDebounceRef = useRef<number | undefined>(undefined);
@@ -47,7 +50,9 @@ export function CalendarStateProvider({
 	};
 
 	return (
-		<CalendarStateContext.Provider value={{ selectedRange, toggleSelectionRange, hoveredDate, handleSetHoveredDate }}>
+		<CalendarStateContext.Provider
+			value={{ selectedRange, toggleSelectionRange, hoveredDate, handleSetHoveredDate, defaultColor }}
+		>
 			{children}
 		</CalendarStateContext.Provider>
 	);

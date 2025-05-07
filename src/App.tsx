@@ -1,7 +1,8 @@
-import { addDays, addMonths, formatISO, subMonths } from "date-fns";
+import { addDays, addMonths, formatISO, subDays, subMonths } from "date-fns";
 import { Calendar, CalendarViewMode } from "./components/Calendar";
 import { useState } from "react";
-// import type { DateRange } from "./components/CalendarStateContext";
+import type { OccupancySlot } from "./model/occupancy";
+import type { DateRange } from "./components/CalendarStateContext";
 
 function App() {
 	const today = formatISO(new Date(), { representation: "date" });
@@ -14,9 +15,30 @@ function App() {
 	// const plus7 = formatISO(addDays(new Date(), 7), { representation: "date" });
 	const plus8 = formatISO(addDays(new Date(), 8), { representation: "date" });
 
-	// const [selectedRange, setSelectedRange] = useState<DateRange>([addDays(new Date(), 5), undefined]);
+	const [selectedRange, setSelectedRange] = useState<DateRange>([addDays(new Date(), 5), undefined]);
 
 	const [firstDate, setFirstDate] = useState(new Date());
+
+	const occupancies: Map<string, OccupancySlot<{ additionalData: string }>> = new Map([
+		["2025-05-08", { allDay: { key: "0196a9b9-0435-712b-b5b2-c1892dcdaabe", color: "#e85f5f" } }],
+		[
+			"2025-05-09",
+			{
+				forenoon: { key: "55441c4b-1e68-4f9b-9141-5658f14d411c", color: "#e85f5f" },
+				afternoon: { key: "9060b84c-c09a-44de-8ad7-d0d908d1d5ea", color: "#0061ff" },
+			},
+		],
+		[
+			"2025-05-18",
+			{
+				forenoon: {
+					key: "55441c4b-1e68-4f9b-9141-5658f14d411c",
+					color: "#e8bc56",
+					data: { additionalData: "Some data" },
+				},
+			},
+		],
+	]);
 
 	return (
 		<>
@@ -29,26 +51,12 @@ function App() {
 				mode="interactive"
 				viewMode={CalendarViewMode.months}
 				firstDate={firstDate}
-				occupancies={
-					new Map([
-						[today, { allDay: { key: "alkdfjllasdjfdlkasjadslfjasdlkjasdlkjkf", amount: 5, data: { test: true } } }],
-						[
-							plus2,
-							{
-								forenoon: { key: "sakjfklösfjsal", color: "lightblue", amount: 5, data: { test: false } },
-								afternoon: { key: "asldkjfdflk", color: "#e8bc56", amount: 3 },
-							},
-						],
-						[plus3, { allDay: { key: "alkdfjlkf", amount: 2 } }],
-						[plus4, { forenoon: { key: "alkdfjlkf" } }],
-						[plus8, { allDay: { key: "alkdfjlkf", amount: 7 } }],
-					])
-				}
-				disableDate={(date) => date < new Date()}
+				occupancies={occupancies}
+				disableDate={(date) => addDays(date, 1) <= new Date()}
 				// type="interactive"
 				onDateClick={console.log}
 				// getDateHref={(date) => `https://google.ch/${date}`}
-				onOccupancyClick={console.log}
+				// onOccupancyClick={console.log}
 				// selectedRange={selectedRange}
 				// onSelectRange={setSelectedRange}
 				visibleMonth={8}

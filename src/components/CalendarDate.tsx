@@ -1,26 +1,16 @@
-import { getDate, isSameDay, isWithinInterval, parseISO } from "date-fns";
+import { getDate, isSameDay, parseISO } from "date-fns";
 import type { Occupancy, OccupancySlot } from "../model/occupancy";
-import { use, type ReactNode } from "react";
+import { memo, type ReactNode } from "react";
 import { OccupancySlot as OccupancySlotComponent } from "./OccupancySlot";
-import { CalendarStateContext, type DateRange } from "./CalendarStateContext";
 import { resolveClassNames } from "../helper/className";
-
-const isSelected = (date: Date, [start, end]: DateRange = [undefined, undefined]) => {
-	return !!start && (isSameDay(date, start) || (!!end && isWithinInterval(date, { start, end })));
-};
-
-const isHovered = (date: Date, [start, end]: DateRange = [undefined, undefined], hovered?: Date) => {
-	if (!hovered) return false;
-
-	if (start && !end) return isWithinInterval(date, { start, end: hovered });
-
-	return isSameDay(date, hovered);
-};
 
 export type CalendarDateProps<O> = {
 	dateString: string;
 	renderLabel?: (date: Date) => string;
 	disabled?: boolean;
+	isInHoveredRange?: boolean;
+	isInSelectedRange?: boolean;
+	onHoverChange?: (date?: Date) => void;
 	onClick?: (date: Date) => void;
 	href?: string;
 	onClickOccupancy?: (occupancy: Occupancy<O>) => void;
@@ -28,42 +18,41 @@ export type CalendarDateProps<O> = {
 	renderOccupancyPopover?: (occupancy: Occupancy<O>) => ReactNode;
 };
 
-export function CalendarDate<O>({
+function _CalendarDate<O>({
 	dateString,
 	renderLabel,
 	occupancySlot,
 	disabled,
+	isInHoveredRange,
+	isInSelectedRange,
 	href,
+	onHoverChange,
 	onClick,
 	onClickOccupancy,
 	renderOccupancyPopover,
 }: CalendarDateProps<O>) {
 	const date = parseISO(dateString);
 
-	const { handleSetHoveredDate, toggleSelectionRange, hoveredDate, selectedRange } = use(CalendarStateContext);
-
 	const isToday = isSameDay(date, new Date());
-	const isInteractive = !!onClick || !!href || !!onClickOccupancy;
+	const isInteractive = (!!onClick || !!href || !!onClickOccupancy) && !isInSelectedRange;
 	const hasOccupancies = !!occupancySlot;
-	const selected = !!selectedRange && isSelected(date, selectedRange);
-	const hovered = !!selectedRange && isHovered(date, selectedRange, hoveredDate);
 
 	const className = resolveClassNames({
 		date: true,
 		today: isToday,
 		"has-occupancies": hasOccupancies,
 		interactive: isInteractive,
-		selected: selected,
-		hovered: hovered,
+		selected: !!isInSelectedRange,
+		hovered: !!isInHoveredRange,
 	});
 
 	const buttonProps = {
-		onMouseEnter: () => handleSetHoveredDate(date),
-		onMouseLeave: () => handleSetHoveredDate(undefined),
+		onMouseEnter: () => onHoverChange?.(date),
+		onMouseLeave: () => onHoverChange?.(undefined),
 		className,
 	};
 
-	const renderContent = () => (
+	const content = (
 		<>
 			<time dateTime={dateString}>{renderLabel?.(date) ?? getDate(date)}</time>
 			{occupancySlot && (
@@ -78,18 +67,15 @@ export function CalendarDate<O>({
 
 	return href ? (
 		<a {...buttonProps} aria-disabled={disabled} href={disabled ? undefined : href}>
-			{renderContent()}
+			{content}
 		</a>
 	) : (
-		<button
-			{...buttonProps}
-			disabled={disabled}
-			onClick={() => {
-				toggleSelectionRange(date);
-				onClick?.(date);
-			}}
-		>
-			{renderContent()}
+		<button {...buttonProps} disabled={disabled} onClick={() => onClick?.(date)}>
+			{content}
 		</button>
 	);
 }
+
+const typedMemo: <T>(c: T) => T = memo;
+
+export const CalendarDate = typedMemo(_CalendarDate);

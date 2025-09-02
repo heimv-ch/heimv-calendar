@@ -76,7 +76,7 @@ const occupancies: Map<string, OccupancySlot<{ additionalData: string }>> = new 
 
 // ...
 
-<Calendar occupancies={occupancies} />
+<Calendar occupancyOfDate={(date: Date) => occupancies.get(date.toISOString())} />
 ```
 
 ### Configuration
@@ -91,7 +91,7 @@ const occupancies: Map<string, OccupancySlot<{ additionalData: string }>> = new 
 | visibleMonth           | `number`                                 | Defines how many months should be displayed (only for `"months"` view) | `8`          |
 | defaultColor           | `string`                                 | The default color for occupancies                                      | `#e85f5f`    |
 | highlightWeekends      | `boolean`                                | Defines wether to visually highlight the dates on the weekends         | `true`       |
-| occupancies            | `Map<string, OccupancySlot>`             | A map of occupancy slots by date key (e.g., `"2025-05-07"`)            | -            |
+| occupancyOfDate        | `(Date) => OccupancySlot \| undefined`   | A function that returns the occupancy slot of a date            | —            |
 | disableDate            | `(date: Date) => boolean`                | Function to determine if a date should be disabled                     | —            |
 | renderOccupancyPopover | `(occupancy: Occupancy<O>) => ReactNode` | Render function for the occupancy popover                              | —            |
 

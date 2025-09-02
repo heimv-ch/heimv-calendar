@@ -1,3 +1,3 @@
 export const defaults = {
-	visibleMonths: 8,
+  visibleMonths: 12,
 };

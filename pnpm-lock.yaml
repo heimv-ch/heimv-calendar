@@ -27,9 +27,6 @@ importers:
       '@changesets/cli':
         specifier: ^2.29.6
         version: 2.29.6
-      '@eslint/js':
-        specifier: ^9.33.0
-        version: 9.33.0
       '@types/react':
         specifier: ^19.1.10
         version: 19.1.10
@@ -408,10 +405,6 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
-
-  '@eslint/js@9.33.0':
-    resolution: {integrity: sha512-5K1/mKhWaMfreBGJTwval43JJmkip0RmM+3+IuqupeSKNC/Th2Kc7ucaq5ovTSra/OOKB9c58CGSz3QMVbWt0A==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@floating-ui/core@1.7.3':
     resolution: {integrity: sha512-sGnvb5dmrJaKEZ+LDIpguvdX3bDlEllmv4/ClQ9awcmCZrlx5jQyyMWFM5kBI+EyNOCDDiKk8il0zeuX3Zlg/w==}
@@ -1745,8 +1738,6 @@ snapshots:
 
   '@esbuild/win32-x64@0.25.9':
     optional: true
-
-  '@eslint/js@9.33.0': {}
 
   '@floating-ui/core@1.7.3':
     dependencies:

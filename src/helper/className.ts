@@ -1,3 +1,6 @@
 export function resolveClassNames(classNames: Record<string, boolean>) {
-	return Object.entries(classNames).reduce((acc, [className, active]) => acc + (active ? ` ${className}` : ""), "");
+  return Object.entries(classNames)
+    .filter(([_, active]) => active)
+    .map(([className]) => className)
+    .join(" ");
 }

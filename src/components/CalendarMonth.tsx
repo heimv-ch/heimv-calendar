@@ -26,14 +26,14 @@ const isHovered = (date: Date, [start, end]: DateRange = [undefined, undefined],
 };
 
 type CalendarMonthProps<O> = CalendarBaseProps<O> & {
-  dateString: string;
+  isoDate: string;
   by: "week" | "day";
 };
 
 export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
-  const { mode, dateString, by, occupancyOfDate, disableDate, highlightWeekends, renderOccupancyPopover } = props;
+  const { mode, isoDate, by, occupancyOfDate, disableDate, highlightWeekends, renderOccupancyPopover } = props;
   const { hoveredDate, selectedRange, handleSetHoveredDate, toggleSelectionRange } = use(CalendarStateContext);
-  const monthStart = startOfMonth(parseISO(dateString));
+  const monthStart = startOfMonth(parseISO(isoDate));
   const monthStartsAfter = (getDay(monthStart) + 6) % 7;
   const daysInMonth = useMemo(
     () => eachDayOfInterval({ start: monthStart, end: endOfMonth(monthStart) }),
@@ -41,10 +41,10 @@ export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
   );
 
   const getCommonCalendarDateProps = (date: Date): CalendarDateProps<O> => {
-    const dateString = formatISO(date, { representation: "date" });
+    const isoDate = formatISO(date, { representation: "date" });
 
     return {
-      dateString,
+      isoDate,
       disabled: disableDate?.(date),
       isWeekend: highlightWeekends && !(date.getDay() % 6),
       occupancySlot: occupancyOfDate?.(date),
@@ -81,7 +81,7 @@ export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
             {!!monthStartsAfter && <div style={{ gridColumn: `span ${monthStartsAfter}` }} />}
 
             {daysInMonth.map((date) => (
-              <CalendarDate<O> key={date.toISOString()} {...getCommonCalendarDateProps(date)} />
+              <CalendarDate<O> key={formatISO(date, { representation: "date" })} {...getCommonCalendarDateProps(date)} />
             ))}
           </div>
         </>
@@ -91,7 +91,7 @@ export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
 
           {daysInMonth.map((date) => (
             <CalendarDate
-              key={date.toISOString()}
+              key={formatISO(date, { representation: "date" })}
               renderLabel={() => narrowFormattedWeekdays[(getDay(date) + 6) % 7]}
               {...getCommonCalendarDateProps(date)}
             />

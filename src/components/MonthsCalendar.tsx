@@ -14,9 +14,9 @@ export function MonthsCalendar<O>({ visibleMonths, ...props }: MonthsCalendarPro
         start: props.firstDate,
         end: addMonths(props.firstDate, (visibleMonths ?? defaults.visibleMonths) - 1),
       }).map((date) => {
-        const dateString = formatISO(date, { representation: "date" });
+        const isoDate = formatISO(date, { representation: "date" });
 
-        return <CalendarMonth by="week" key={dateString} dateString={dateString} {...props} />;
+        return <CalendarMonth by="week" key={isoDate} isoDate={isoDate} {...props} />;
       })}
     </div>
   );

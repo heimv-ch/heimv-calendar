@@ -5,7 +5,7 @@ import { OccupancySlot as OccupancySlotComponent } from "./OccupancySlot";
 import { resolveClassNames } from "../helper/className";
 
 export type CalendarDateProps<O> = {
-	dateString: string;
+	isoDate: string;
 	renderLabel?: (date: Date) => string;
 	disabled?: boolean;
 	isWeekend?: boolean;
@@ -20,7 +20,7 @@ export type CalendarDateProps<O> = {
 };
 
 function _CalendarDate<O>({
-	dateString,
+	isoDate,
 	renderLabel,
 	occupancySlot,
 	disabled,
@@ -33,7 +33,7 @@ function _CalendarDate<O>({
 	onClickOccupancy,
 	renderOccupancyPopover,
 }: CalendarDateProps<O>) {
-	const date = parseISO(dateString);
+	const date = parseISO(isoDate);
 
 	const isToday = isSameDay(date, new Date());
 	const isInteractive = (!!onClick || !!href || !!onClickOccupancy) && !isInSelectedRange;
@@ -57,7 +57,7 @@ function _CalendarDate<O>({
 
 	const content = (
 		<>
-			<time dateTime={dateString}>{renderLabel?.(date) ?? getDate(date)}</time>
+			<time dateTime={isoDate}>{renderLabel?.(date) ?? getDate(date)}</time>
 			{occupancySlot && (
 				<OccupancySlotComponent
 					occupancySlot={occupancySlot}

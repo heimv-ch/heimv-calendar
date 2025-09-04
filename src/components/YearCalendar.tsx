@@ -17,8 +17,8 @@ export function YearCalendar<O>(props: YearCalendarProps<O>) {
       </header>
 
       {eachMonthOfInterval({ start: props.firstDate, end: addMonths(props.firstDate, 11) }).map((date) => {
-        const dateString = formatISO(date, { representation: "date" });
-        return <CalendarMonth by="day" dateString={dateString} key={dateString} {...props} />;
+        const isoDate = formatISO(date, { representation: "date" });
+        return <CalendarMonth by="day" isoDate={isoDate} key={isoDate} {...props} />;
       })}
     </div>
   );

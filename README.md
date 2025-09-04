@@ -76,7 +76,7 @@ const occupancies: Map<string, OccupancySlot<{ additionalData: string }>> = new 
 
 // ...
 
-<Calendar occupancyOfDate={(date: Date) => occupancies.get(date.toISOString())} />
+<Calendar occupancyOfDate={(date: Date) => occupancies.get(formatISO(date, { representation: "date" }))} />
 ```
 
 ### Configuration

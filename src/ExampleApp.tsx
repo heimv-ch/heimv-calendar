@@ -14,11 +14,8 @@ function ExampleApp() {
   // const plus6 = formatISO(addDays(new Date(), 6), { representation: "date" });
   // const plus7 = formatISO(addDays(new Date(), 7), { representation: "date" });
   const plus8 = formatISO(addDays(new Date(), 8), { representation: "date" });
-
   const [selectedRange, setSelectedRange] = useState<DateRange>([addDays(new Date(), 5), undefined]);
-
   const [firstDate, setFirstDate] = useState(new Date());
-
   const occupancies: Map<string, OccupancySlot<{ additionalData: string }>> = new Map([
     ["2025-05-08", { allDay: { key: "0196a9b9-0435-712b-b5b2-c1892dcdaabe", color: "#e85f5f" } }],
     [

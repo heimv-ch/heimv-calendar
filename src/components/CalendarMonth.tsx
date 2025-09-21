@@ -8,11 +8,11 @@ import {
   parseISO,
   startOfMonth,
 } from "date-fns";
-import { CalendarDate, type CalendarDateProps } from "./CalendarDate";
+import { use, useMemo } from "react";
 import { formatMonth, formattedWeekdays, narrowFormattedWeekdays } from "../helper/format";
 import type { CalendarBaseProps } from "./Calendar";
+import { CalendarDate, type CalendarDateProps } from "./CalendarDate";
 import { CalendarStateContext, type DateRange } from "./CalendarStateContext";
-import { use, useMemo } from "react";
 
 const isSelected = (date: Date, [start, end]: DateRange = [undefined, undefined]) => {
   return !!start && (isSameDay(date, start) || (!!end && isWithinInterval(date, { start, end })));
@@ -81,7 +81,10 @@ export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
             {!!monthStartsAfter && <div style={{ gridColumn: `span ${monthStartsAfter}` }} />}
 
             {daysInMonth.map((date) => (
-              <CalendarDate<O> key={formatISO(date, { representation: "date" })} {...getCommonCalendarDateProps(date)} />
+              <CalendarDate<O>
+                key={formatISO(date, { representation: "date" })}
+                {...getCommonCalendarDateProps(date)}
+              />
             ))}
           </div>
         </>

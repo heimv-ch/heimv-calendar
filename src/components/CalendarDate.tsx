@@ -1,8 +1,8 @@
 import { getDate, isSameDay, parseISO } from "date-fns";
-import type { Occupancy, OccupancySlot } from "../model/occupancy";
 import { memo, type ReactNode } from "react";
-import { OccupancySlot as OccupancySlotComponent } from "./OccupancySlot";
 import { resolveClassNames } from "../helper/className";
+import type { Occupancy, OccupancySlot } from "../model/occupancy";
+import { OccupancySlot as OccupancySlotComponent } from "./OccupancySlot";
 
 export type CalendarDateProps<O> = {
   isoDate: string;
@@ -46,17 +46,18 @@ function _CalendarDate<O>({
     selected: !!isInSelectedRange,
     hovered: !!isInHoveredRange,
     weekend: !!isWeekend,
+    disabled: !!disabled,
   });
   const contentClassName = resolveClassNames({
-    interactive: isInteractive
-  })
+    interactive: isInteractive,
+  });
 
   const buttonProps = {
     onMouseEnter: () => onHoverChange?.(date),
     onMouseLeave: () => onHoverChange?.(undefined),
   };
 
-  const label = renderLabel?.(date) ?? <span className="date-label">{getDate(date)}</span>
+  const label = renderLabel?.(date) ?? <span className="date-label">{getDate(date)}</span>;
   const content = href ? (
     <a aria-disabled={disabled} className={contentClassName} href={disabled ? undefined : href}>
       {label}
@@ -67,16 +68,16 @@ function _CalendarDate<O>({
     </button>
   );
   return (
-      <time className={containerClassName} dateTime={isoDate}>
-        {content}
-        {occupancySlot && (
-          <OccupancySlotComponent
-            occupancySlot={occupancySlot}
-            onClick={onClickOccupancy}
-            renderPopover={renderOccupancyPopover}
-          />
-        )}
-      </time>
+    <time className={containerClassName} dateTime={isoDate}>
+      {content}
+      {occupancySlot && (
+        <OccupancySlotComponent
+          occupancySlot={occupancySlot}
+          onClick={onClickOccupancy}
+          renderPopover={renderOccupancyPopover}
+        />
+      )}
+    </time>
   );
 }
 

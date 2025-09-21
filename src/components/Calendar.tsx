@@ -1,8 +1,8 @@
-import type { Occupancy, OccupancySlot } from "../model/occupancy";
 import type { ReactNode } from "react";
+import type { Occupancy, OccupancySlot } from "../model/occupancy";
+import { CalendarStateProvider, type DateRange } from "./CalendarStateContext";
 import { MonthsCalendar } from "./MonthsCalendar";
 import { YearCalendar } from "./YearCalendar";
-import { CalendarStateProvider, type DateRange } from "./CalendarStateContext";
 
 export enum CalendarViewMode {
   months = "months",
@@ -70,7 +70,7 @@ export function Calendar<O, M extends CalendarMode = "view">(props: CalendarProp
       setSelectedRange={props.mode === "range" ? (props as CalendarRangeSelectProps).onSelectRange : undefined}
       defaultColor={defaultColor}
     >
-      <div className="calendar">{renderCalendar()}</div>
+      <div className="heimv-calendar">{renderCalendar()}</div>
     </CalendarStateProvider>
   );
 }

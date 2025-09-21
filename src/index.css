@@ -4,17 +4,17 @@
   --calendar-date-hovered-color: rgb(from var(--calendar-date-selected-color) r g b / 70%);
 }
 
-@keyframes fadein {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
 .calendar {
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
   position: relative;
 
   button {
@@ -65,7 +65,7 @@
     .month {
       box-sizing: border-box;
 
-      header>h3 {
+      header > h3 {
         font-weight: bold;
         font-size: 1.25rem;
         text-align: center;
@@ -95,11 +95,6 @@
     position: relative;
     aspect-ratio: 1 / 1;
 
-    &>*:first-child {
-      width: 100%;
-      height: 100%;
-    }
-
     &.has-occupancies {
       .date-label {
         font-weight: bold;
@@ -128,45 +123,28 @@
       background-color: rgba(0, 0, 0, 0.05);
     }
 
-    .interactive {
-
+    /* &.interactive {
       cursor: pointer;
 
       &:hover,
       &:focus {
         background-color: rgba(0, 0, 0, 0.1);
       }
+    } */
 
-      &:disabled,
-      &[aria-disabled="true"] {
-        cursor: default;
-        background-color: transparent !important;
-        opacity: 0.1;
-      }
+    & > * {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    &.hovered,
-    &.selected {
-      background-color: var(--calendar-date-selected-color);
-
-      &:hover {
-        background-color: var(--calendar-date-hovered-color);
-      }
-
-      span.date-label {
-        color: white;
-      }
-
-      svg {
-        opacity: 0.7;
-        cursor: default;
-      }
+    &.disabled {
+      cursor: default;
+      background-color: transparent !important;
+      opacity: 0.5;
     }
-
-    &.hovered {
-      background-color: var(--calendar-date-hovered-color);
-    }
-
 
     span.date-label {
       pointer-events: none;
@@ -174,8 +152,36 @@
       z-index: 2;
     }
 
+    &:not(.disabled) {
+      svg {
+        cursor: pointer;
+      }
+
+      &:hover,
+      &:focus {
+        opacity: 0.7;
+        background-color: var(--calendar-date-hovered-color);
+      }
+
+      &.hovered,
+      &.selected {
+        background-color: var(--calendar-date-selected-color);
+
+        &:hover {
+          background-color: var(--calendar-date-hovered-color);
+        }
+
+        span.date-label {
+          color: white;
+        }
+
+        svg {
+          opacity: 0.7;
+        }
+      }
+    }
+
     svg {
-      cursor: pointer;
       overflow: clip;
       position: absolute;
       inset: 0;
@@ -186,31 +192,26 @@
         pointer-events: auto;
         animation: fadein 500ms;
 
-        &:hover,
-        &:focus {
-          opacity: 0.7;
-        }
-
         &:not([fill]) {
           fill: var(--calendar-occupancy-color);
         }
       }
 
-      &.afternoon+.occupancy-amount,
-      &.all-day+.occupancy-amount {
-        right: .9px;
-        bottom: .9px;
+      &.afternoon + .occupancy-amount,
+      &.all-day + .occupancy-amount {
+        right: 0.9px;
+        bottom: 0.9px;
       }
 
-      &.forenoon+.occupancy-amount {
-        left: .9px;
-        top: .9px;
+      &.forenoon + .occupancy-amount {
+        left: 0.9px;
+        top: 0.9px;
       }
     }
 
     .occupancy-amount {
       position: absolute;
-      font-size: .7rem;
+      font-size: 0.7rem;
       z-index: 3;
       background-color: rgba(255, 255, 255, 0.7);
       pointer-events: none;

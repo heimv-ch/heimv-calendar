@@ -1,5 +1,5 @@
-import type { Occupancy as OccupancyType, OccupancySlot as OccupancySlotType } from "../model/occupancy";
 import type { ReactNode } from "react";
+import type { OccupancySlot as OccupancySlotType, Occupancy as OccupancyType } from "../model/occupancy";
 import { Occupancy } from "./Occupancy";
 
 type OccupancySlotProps<O> = {

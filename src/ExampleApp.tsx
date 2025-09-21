@@ -1,8 +1,8 @@
 import { addDays, addMonths, formatISO, subDays, subMonths } from "date-fns";
-import { Calendar, CalendarViewMode } from "./components/Calendar";
 import { useState } from "react";
-import type { OccupancySlot } from "./model/occupancy";
+import { Calendar, CalendarViewMode } from "./components/Calendar";
 import type { DateRange } from "./components/CalendarStateContext";
+import type { OccupancySlot } from "./model/occupancy";
 
 function ExampleApp() {
   const today = formatISO(new Date(), { representation: "date" });
@@ -41,8 +41,12 @@ function ExampleApp() {
     <>
       <h1>Calendar Playground</h1>
 
-      <button onClick={() => setFirstDate(subMonths(firstDate, 1))}>&lt;</button>
-      <button onClick={() => setFirstDate(addMonths(firstDate, 1))}>&gt;</button>
+      <button type="button" onClick={() => setFirstDate(subMonths(firstDate, 1))}>
+        &lt;
+      </button>
+      <button type="button" onClick={() => setFirstDate(addMonths(firstDate, 1))}>
+        &gt;
+      </button>
 
       <Calendar
         mode="interactive"

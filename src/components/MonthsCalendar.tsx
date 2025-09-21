@@ -1,7 +1,7 @@
 import { addMonths, eachMonthOfInterval, formatISO } from "date-fns";
-import { CalendarMonth } from "./CalendarMonth";
 import { defaults } from "../config";
 import type { CalendarBaseProps } from "./Calendar";
+import { CalendarMonth } from "./CalendarMonth";
 
 type MonthsCalendarProps<O> = CalendarBaseProps<O> & {
   visibleMonths?: number;

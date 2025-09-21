@@ -1,6 +1,6 @@
 import { addMonths, eachMonthOfInterval, formatISO } from "date-fns";
-import { CalendarMonth } from "./CalendarMonth";
 import type { CalendarBaseProps } from "./Calendar";
+import { CalendarMonth } from "./CalendarMonth";
 
 type YearCalendarProps<O> = CalendarBaseProps<O>;
 

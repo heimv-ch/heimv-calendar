@@ -1,6 +1,6 @@
 import { autoPlacement, useFloating, useFocus, useHover, useInteractions } from "@floating-ui/react";
-import type { Occupancy as OccupancyType, OccupancySlot } from "../model/occupancy";
 import { type ReactNode, use, useState } from "react";
+import type { OccupancySlot, Occupancy as OccupancyType } from "../model/occupancy";
 import { CalendarStateContext } from "./CalendarStateContext";
 
 type OccupancyProps<O> = {

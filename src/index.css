@@ -4,7 +4,7 @@
   --calendar-date-hovered-color: rgb(from var(--calendar-date-selected-color) r g b / 70%);
 }
 
-.calendar {
+.heimv-calendar {
   @keyframes fadein {
     from {
       opacity: 0;
@@ -65,7 +65,7 @@
     .month {
       box-sizing: border-box;
 
-      header > h3 {
+      header>h3 {
         font-weight: bold;
         font-size: 1.25rem;
         text-align: center;
@@ -132,7 +132,7 @@
       }
     } */
 
-    & > * {
+    &>* {
       width: 100%;
       height: 100%;
       display: flex;
@@ -197,13 +197,13 @@
         }
       }
 
-      &.afternoon + .occupancy-amount,
-      &.all-day + .occupancy-amount {
+      &.afternoon+.occupancy-amount,
+      &.all-day+.occupancy-amount {
         right: 0.9px;
         bottom: 0.9px;
       }
 
-      &.forenoon + .occupancy-amount {
+      &.forenoon+.occupancy-amount {
         left: 0.9px;
         top: 0.9px;
       }

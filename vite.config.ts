@@ -21,6 +21,12 @@ export default defineConfig({
     },
     rollupOptions: {
       external: ["react", "react-dom", "date-fns", "@floating-ui/react"],
+      output: {
+        globals: {
+          "react": "React",
+          "react-dom": "ReactDOM",
+        },
+      },
     },
     cssCodeSplit: true,
     emptyOutDir: true,

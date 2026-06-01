@@ -1,6 +1,7 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
+import packageJson from "./package.json";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -14,7 +15,9 @@ export default defineConfig({
   build: {
     lib: {
       entry: "src/index.ts",
-      formats: ["es"],
+      name: packageJson.name,
+      formats: ["es", "umd"],
+      fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
       external: ["react", "react-dom", "date-fns", "@floating-ui/react"],

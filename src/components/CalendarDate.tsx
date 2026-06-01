@@ -13,8 +13,9 @@ export type CalendarDateProps<O> = {
   isInSelectedRange?: boolean;
   onHoverChange?: (date?: Date) => void;
   onClick?: (date: Date) => void;
-  href?: string;
-  onClickOccupancy?: (occupancy: Occupancy<O>) => void;
+  href?: HTMLAnchorElement["href"];
+  hrefTarget?: HTMLAnchorElement["target"];
+  onOccupancyClick?: (occupancy: Occupancy<O>) => void;
   occupancySlot?: OccupancySlot<O>;
   renderOccupancyPopover?: (occupancy: Occupancy<O>) => ReactNode;
 };
@@ -28,15 +29,16 @@ function _CalendarDate<O>({
   isInHoveredRange,
   isInSelectedRange,
   href,
+  hrefTarget,
   onHoverChange,
   onClick,
-  onClickOccupancy,
+  onOccupancyClick,
   renderOccupancyPopover,
 }: CalendarDateProps<O>) {
   const date = parseISO(isoDate);
 
   const isToday = isSameDay(date, new Date());
-  const isInteractive = (!!onClick || !!href || !!onClickOccupancy) && !isInSelectedRange && !disabled;
+  const isInteractive = (!!onClick || !!href || !!onOccupancyClick) && !isInSelectedRange && !disabled;
   const hasOccupancies = !!occupancySlot;
 
   const containerClassName = resolveClassNames({
@@ -59,7 +61,12 @@ function _CalendarDate<O>({
 
   const label = renderLabel?.(date) ?? <span className="date-label">{getDate(date)}</span>;
   const content = href ? (
-    <a aria-disabled={disabled} className={contentClassName} href={disabled ? undefined : href}>
+    <a
+      aria-disabled={disabled}
+      className={contentClassName}
+      href={disabled ? undefined : href}
+      target={hrefTarget ?? ""}
+    >
       {label}
     </a>
   ) : (
@@ -73,7 +80,7 @@ function _CalendarDate<O>({
       {occupancySlot && (
         <OccupancySlotComponent
           occupancySlot={occupancySlot}
-          onClick={onClickOccupancy}
+          onClick={onOccupancyClick}
           renderPopover={renderOccupancyPopover}
         />
       )}

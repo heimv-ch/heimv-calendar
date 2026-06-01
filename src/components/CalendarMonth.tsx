@@ -50,7 +50,12 @@ export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
       occupancySlot: occupancyOfDate?.(date),
       renderOccupancyPopover: renderOccupancyPopover,
       ...(mode === "interactive"
-        ? { onClick: props.onDateClick, href: props.getDateHref?.(date), onClickOccupancy: props.onOccupancyClick }
+        ? {
+            onClick: props.onDateClick,
+            href: props.getDateHref?.(date),
+            hrefTarget: props.hrefTarget,
+            onOccupancyClick: props.onOccupancyClick,
+          }
         : {}),
       ...(mode === "range"
         ? {
@@ -73,6 +78,7 @@ export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
             </h3>
             <div className="weekdays">
               {formattedWeekdays.map((day, index) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: weekdays are static and order never changes
                 <div key={`weekday-${index + 1}`}>{day}</div>
               ))}
             </div>

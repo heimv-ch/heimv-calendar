@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { Occupancy, OccupancySlot } from "../model/occupancy";
+import type { CalendarDateProps } from "./CalendarDate";
 import { CalendarStateProvider, type DateRange } from "./CalendarStateContext";
 import { MonthsCalendar } from "./MonthsCalendar";
 import { YearCalendar } from "./YearCalendar";
@@ -13,10 +14,9 @@ export type CalendarMode = "view" | "interactive" | "range";
 
 type CalendarClickableProps<O> = {
   mode: "interactive";
-  onOccupancyClick?: (occupancy: Occupancy<O>) => void;
-  onDateClick?: (date: Date) => void;
   getDateHref?: (date: Date) => string;
-};
+  onDateClick?: CalendarDateProps<O>["onClick"];
+} & Pick<CalendarDateProps<O>, "hrefTarget" | "onOccupancyClick">;
 
 type CalendarRangeSelectProps = {
   mode: "range";

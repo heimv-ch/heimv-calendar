@@ -1,6 +1,6 @@
 {
   "name": "heimv-calendar",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Occupancy calendar used by HeimV.",
   "repository": {
     "type": "git",
@@ -18,22 +18,22 @@
     "lint": "biome check"
   },
   "dependencies": {
-    "@floating-ui/react": "^0.27.16",
-    "date-fns": "^4.1.0"
+    "@floating-ui/react": "^0.27.19",
+    "date-fns": "^4.4.0"
   },
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.0",
-    "@changesets/cli": "^2.29.7",
-    "@types/react": "^19.1.13",
-    "@types/react-dom": "^19.1.9",
-    "@vitejs/plugin-react": "^5.0.3",
-    "globals": "^16.4.0",
-    "typescript": "~5.9.2",
-    "vite": "^7.1.6",
-    "vite-plugin-dts": "^4.5.4"
+    "@biomejs/biome": "2.4.16",
+    "@changesets/cli": "^2.31.0",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
+    "globals": "^17.6.0",
+    "typescript": "~6.0.3",
+    "vite": "^8.0.15",
+    "vite-plugin-dts": "^5.0.1"
   }
 }

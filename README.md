@@ -106,6 +106,7 @@ It adds the following Properties to `Calendar` component:
 | onOccupancyClick | `(occupancy: Occupancy<O>) => void` | Callback when an occupancy is clicked                                                                      |
 | onDateClick      | `(date: Date) => void`              | Callback when a date is clicked                                                                            |
 | getDateHref      | `(date: Date) => string`            | Function to resolve a href based on the given date. When applied all dates will be turned into `<a>` Tags. |
+| hrefTarget       | `string`                            | Sets the target attribute of the HTMLAnchorElement                                                         |
 
 #### Mode `range`
 

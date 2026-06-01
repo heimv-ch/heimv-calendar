@@ -4,17 +4,17 @@
   --calendar-date-hovered-color: rgb(from var(--calendar-date-selected-color) r g b / 70%);
 }
 
-.heimv-calendar {
-  @keyframes fadein {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 1;
-    }
+@keyframes fadein {
+  from {
+    opacity: 0;
   }
 
+  to {
+    opacity: 1;
+  }
+}
+
+.heimv-calendar {
   position: relative;
 
   button {
@@ -142,6 +142,7 @@
 
     &.disabled {
       cursor: default;
+      /* biome-ignore lint/complexity/noImportantStyles: theres no other way */
       background-color: transparent !important;
       opacity: 0.5;
     }
@@ -152,33 +153,14 @@
       z-index: 2;
     }
 
-    &:not(.disabled) {
-      svg {
-        cursor: pointer;
-      }
-
-      &:hover,
-      &:focus {
-        opacity: 0.7;
-        background-color: var(--calendar-date-hovered-color);
-      }
-
-      &.hovered,
-      &.selected {
-        background-color: var(--calendar-date-selected-color);
-
-        &:hover {
-          background-color: var(--calendar-date-hovered-color);
-        }
-
-        span.date-label {
-          color: white;
-        }
-
-        svg {
-          opacity: 0.7;
-        }
-      }
+    .occupancy-amount {
+      position: absolute;
+      font-size: 0.7rem;
+      z-index: 3;
+      background-color: rgba(255, 255, 255, 0.7);
+      pointer-events: none;
+      padding-inline: 1px;
+      line-height: 1;
     }
 
     svg {
@@ -209,14 +191,33 @@
       }
     }
 
-    .occupancy-amount {
-      position: absolute;
-      font-size: 0.7rem;
-      z-index: 3;
-      background-color: rgba(255, 255, 255, 0.7);
-      pointer-events: none;
-      padding-inline: 1px;
-      line-height: 1;
+    &:not(.disabled) {
+      svg {
+        cursor: pointer;
+      }
+
+      &:hover,
+      &:focus {
+        opacity: 0.7;
+        background-color: var(--calendar-date-hovered-color);
+      }
+
+      &.hovered,
+      &.selected {
+        background-color: var(--calendar-date-selected-color);
+
+        &:hover {
+          background-color: var(--calendar-date-hovered-color);
+        }
+
+        span.date-label {
+          color: white;
+        }
+
+        svg {
+          opacity: 0.7;
+        }
+      }
     }
   }
 

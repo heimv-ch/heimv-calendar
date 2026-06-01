@@ -53,10 +53,10 @@ function ExampleApp() {
         viewMode={CalendarViewMode.months}
         firstDate={firstDate}
         occupancyOfDate={(date: Date) => occupancies.get(formatISO(date, { representation: "date" }))}
-        disableDate={(date) => addDays(date, 1) <= new Date()}
-        // type="interactive"
-        onDateClick={console.log}
-        // getDateHref={(date) => `https://google.ch/${date}`}
+        // disableDate={(date) => addDays(date, 1) <= new Date()}
+        // onDateClick={console.log}
+        getDateHref={(date) => `https://google.ch/${formatISO(date)}`}
+        hrefTarget="_blank"
         // onOccupancyClick={console.log}
         // selectedRange={selectedRange}
         // onSelectRange={setSelectedRange}

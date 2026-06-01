@@ -23,7 +23,7 @@ export default defineConfig({
       external: ["react", "react-dom", "date-fns", "@floating-ui/react"],
       output: {
         globals: {
-          "react": "React",
+          react: "React",
           "react-dom": "ReactDOM",
         },
       },

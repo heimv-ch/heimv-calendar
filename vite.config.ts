@@ -9,6 +9,7 @@ export default defineConfig({
     dts({
       tsconfigPath: "tsconfig.app.json",
       exclude: ["src/example.tsx", "src/ExampleApp.tsx"],
+      bundleTypes: true,
     }),
   ],
   build: {
@@ -16,6 +17,7 @@ export default defineConfig({
       entry: "src/index.ts",
       formats: ["es"],
       fileName: () => "index.es.js",
+      cssFileName: "index",
     },
     rollupOptions: {
       external: (id) =>

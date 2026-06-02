@@ -1,6 +1,6 @@
 {
   "name": "heimv-calendar",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "Occupancy calendar used by HeimV.",
   "repository": {
     "type": "git",
@@ -9,10 +9,10 @@
   "type": "module",
   "packageManager": "pnpm@11.5.0",
   "module": "./index.es.js",
-  "typings": "./index.d.ts",
+  "typings": "./src/index.d.ts",
   "exports": {
     ".": {
-      "types": "./index.d.ts",
+      "types": "./src/index.d.ts",
       "import": "./index.es.js"
     },
     "./index.css": "./index.css"

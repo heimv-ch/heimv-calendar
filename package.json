@@ -13,9 +13,9 @@
   "typings": "./index.d.ts",
   "exports": {
     ".": {
+      "types": "./index.d.ts",
       "import": "./index.es.js",
-      "require": "./index.umd.js",
-      "types": "./index.d.ts"
+      "require": "./index.umd.js"
     },
     "./index.css": "./index.css"
   },

@@ -1,5 +1,5 @@
 import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import { defineConfig, esmExternalRequirePlugin } from "vite";
 import dts from "vite-plugin-dts";
 import packageJson from "./package.json";
 
@@ -10,6 +10,9 @@ export default defineConfig({
     dts({
       tsconfigPath: "tsconfig.app.json",
       exclude: ["src/example.tsx", "src/ExampleApp.tsx"],
+    }),
+    esmExternalRequirePlugin({
+      external: ["react", "react-dom"],
     }),
   ],
   build: {

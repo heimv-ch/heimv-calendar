@@ -1,7 +1,6 @@
 import react from "@vitejs/plugin-react";
-import { defineConfig, esmExternalRequirePlugin } from "vite";
+import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
-import packageJson from "./package.json";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -11,25 +10,16 @@ export default defineConfig({
       tsconfigPath: "tsconfig.app.json",
       exclude: ["src/example.tsx", "src/ExampleApp.tsx"],
     }),
-    esmExternalRequirePlugin({
-      external: ["react", "react-dom"],
-    }),
   ],
   build: {
     lib: {
       entry: "src/index.ts",
-      name: packageJson.name,
-      formats: ["es", "umd"],
-      fileName: (format) => `index.${format}.js`,
+      formats: ["es"],
+      fileName: () => "index.es.js",
     },
     rollupOptions: {
-      external: ["react", "react-dom", "date-fns", "@floating-ui/react"],
-      output: {
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-        },
-      },
+      external: (id) =>
+        ["react", "react-dom", "date-fns", "@floating-ui/react"].some((pkg) => id === pkg || id.startsWith(`${pkg}/`)),
     },
     cssCodeSplit: true,
     emptyOutDir: true,

@@ -1,6 +1,6 @@
 {
   "name": "heimv-calendar",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Occupancy calendar used by HeimV.",
   "repository": {
     "type": "git",
@@ -37,7 +37,6 @@
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
-    "globals": "^17.6.0",
     "typescript": "~6.0.3",
     "vite": "^8.0.15",
     "vite-plugin-dts": "^5.0.1"

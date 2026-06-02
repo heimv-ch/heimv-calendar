@@ -21,7 +21,6 @@ export default defineConfig({
       external: (id) =>
         ["react", "react-dom", "date-fns", "@floating-ui/react"].some((pkg) => id === pkg || id.startsWith(`${pkg}/`)),
     },
-    cssCodeSplit: true,
     emptyOutDir: true,
   },
 });

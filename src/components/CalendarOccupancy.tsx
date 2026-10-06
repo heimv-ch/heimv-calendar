@@ -1,5 +1,5 @@
-import { autoPlacement, useFloating, useFocus, useInteractions } from "@floating-ui/react";
-import { memo, type ReactNode, use, useCallback, useMemo, useRef, useState } from "react";
+import { autoPlacement, flip, offset, safePolygon, useFloating, useFocus, useHover, useInteractions } from "@floating-ui/react";
+import { type ReactNode, use, useCallback, useMemo, useState } from "react";
 import type { OccupancySlot, Occupancy as OccupancyType } from "../model/occupancy";
 import { CalendarStateContext } from "./CalendarStateContext";
 
@@ -21,48 +21,24 @@ export function CalendarOccupancy<O>({ type, occupancy, renderPopover, onClick }
   const hasPopover = !!renderPopover;
   const isInteractive = hasPopover || !!onClick;
   const { defaultColor } = use(CalendarStateContext);
-  const middleware = useMemo(() => [autoPlacement()], []);
-  const hoverTimeoutRef = useRef<number | null>(null);
-  
+  const middleware = useMemo(() => [offset(8), flip(), autoPlacement()], []);
+
   const { refs, context, floatingStyles } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
     middleware,
   });
 
+  const hover = useHover(context, {
+    enabled: hasPopover,
+    move: false,
+    restMs: 100,
+    handleClose: safePolygon({ blockPointerEvents: false }),
+  });
   const focus = useFocus(context, { enabled: hasPopover });
-  const { getReferenceProps, getFloatingProps } = useInteractions([focus]);
 
-  const clearHoverTimeout = useCallback(() => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-      hoverTimeoutRef.current = null;
-    }
-  }, []);
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover, focus]);
 
-  const handleReferenceMouseEnter = useCallback(() => {
-    clearHoverTimeout();
-    setIsOpen(true);
-  }, [clearHoverTimeout]);
-
-  const handleReferenceMouseLeave = useCallback(() => {
-    clearHoverTimeout();
-    hoverTimeoutRef.current = window.setTimeout(() => {
-      setIsOpen(false);
-    }, 150);
-  }, [clearHoverTimeout]);
-
-  const handlePopoverMouseEnter = useCallback(() => {
-    clearHoverTimeout();
-    setIsOpen(true);
-  }, [clearHoverTimeout]);
-
-  const handlePopoverMouseLeave = useCallback(() => {
-    clearHoverTimeout();
-    hoverTimeoutRef.current = window.setTimeout(() => {
-      setIsOpen(false);
-    }, 150);
-  }, [clearHoverTimeout]);
   const handleClick = useCallback(
     (e: React.MouseEvent<SVGRectElement | SVGPolygonElement>) => {
       if (!onClick) return;
@@ -87,7 +63,7 @@ export function CalendarOccupancy<O>({ type, occupancy, renderPopover, onClick }
   // const ariaLabel = occupancy.amount
   //   ? `${occupancyTypeLabels[type]}, amount ${occupancy.amount}`
   //   : occupancyTypeLabels[type];
-  const ariaLabel = "TODO"
+  const ariaLabel = "TODO";
 
   const props: React.SVGProps<SVGRectElement & SVGPolygonElement> = {
     onClick: handleClick,
@@ -97,8 +73,6 @@ export function CalendarOccupancy<O>({ type, occupancy, renderPopover, onClick }
     fill: occupancy.color ?? defaultColor,
     tabIndex: isInteractive ? 0 : -1,
     ref: refs.setReference,
-    onMouseEnter: handleReferenceMouseEnter,
-    onMouseLeave: handleReferenceMouseLeave,
     ...getReferenceProps(),
   };
 
@@ -122,14 +96,7 @@ export function CalendarOccupancy<O>({ type, occupancy, renderPopover, onClick }
       {occupancy.amount && <span className="occupancy-amount">{occupancy.amount}</span>}
 
       {hasPopover && isOpen && (
-        <div
-          ref={refs.setFloating}
-          {...getFloatingProps()}
-          style={floatingStyles}
-          className="occupancy-popover"
-          onMouseEnter={handlePopoverMouseEnter}
-          onMouseLeave={handlePopoverMouseLeave}
-        >
+        <div ref={refs.setFloating} {...getFloatingProps()} style={floatingStyles} className="occupancy-popover">
           {renderPopover?.(occupancy)}
         </div>
       )}

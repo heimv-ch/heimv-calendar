@@ -1,11 +1,10 @@
-import { getDate, isSameDay, parseISO } from "date-fns";
+import { formatISO, getDate, isSameDay, parseISO } from "date-fns";
 import { memo, type ReactNode } from "react";
 import { resolveClassNames } from "../helper/className";
 import type { Occupancy, OccupancySlot } from "../model/occupancy";
 import { OccupancySlot as OccupancySlotComponent } from "./OccupancySlot";
 
 export type CalendarDateProps<O> = {
-  isoDate: string;
   renderLabel?: (date: Date) => string;
   disabled?: boolean;
   isWeekend?: boolean;
@@ -18,10 +17,13 @@ export type CalendarDateProps<O> = {
   onOccupancyClick?: (occupancy: Occupancy<O>) => void;
   occupancySlot?: OccupancySlot<O>;
   renderOccupancyPopover?: (occupancy: Occupancy<O>) => ReactNode;
+  isoDate?: string; 
+  date?: Date;
 };
 
 function _CalendarDate<O>({
   isoDate,
+  date,
   renderLabel,
   occupancySlot,
   disabled,
@@ -35,7 +37,8 @@ function _CalendarDate<O>({
   onOccupancyClick,
   renderOccupancyPopover,
 }: CalendarDateProps<O>) {
-  const date = parseISO(isoDate);
+  date = date ?? (isoDate ? parseISO(isoDate) : date!);
+  isoDate = isoDate ?? formatISO(date, { representation: "date" })
 
   const isToday = isSameDay(date, new Date());
   const isInteractive = (!!onClick || !!href || !!onOccupancyClick) && !isInSelectedRange && !disabled;
@@ -66,11 +69,18 @@ function _CalendarDate<O>({
       className={contentClassName}
       href={disabled ? undefined : href}
       target={hrefTarget ?? ""}
+      rel={hrefTarget === "_blank" ? "noopener noreferrer" : undefined}
     >
       {label}
     </a>
   ) : (
-    <button {...buttonProps} className={contentClassName} type="button" disabled={true} onClick={() => onClick?.(date)}>
+    <button
+      {...buttonProps}
+      className={contentClassName}
+      type="button"
+      disabled={disabled || !onClick}
+      onClick={() => onClick?.(date)}
+    >
       {label}
     </button>
   );

@@ -1,32 +1,32 @@
-import { addDays, addMonths, formatISO, subDays, subMonths } from "date-fns";
+import { addDays, addMonths, format, formatISO, subDays, subMonths } from "date-fns";
 import { useState } from "react";
 import { Calendar, CalendarViewMode } from "./components/Calendar";
 import type { DateRange } from "./components/CalendarStateContext";
 import type { OccupancySlot } from "./model/occupancy";
 
 function ExampleApp() {
-  const today = formatISO(new Date(), { representation: "date" });
+  // const today = formatISO(new Date(), { representation: "date" });
   // const plus1 = formatISO(addDays(new Date(), 1), { representation: "date" });
-  const plus2 = formatISO(addDays(new Date(), 2), { representation: "date" });
+  // const plus2 = formatISO(addDays(new Date(), 2), { representation: "date" });
   const plus3 = formatISO(addDays(new Date(), 3), { representation: "date" });
   const plus4 = formatISO(addDays(new Date(), 4), { representation: "date" });
-  // const plus5 = formatISO(addDays(new Date(), 5), { representation: "date" });
+  const plus5 = formatISO(addDays(new Date(), 5), { representation: "date" });
   // const plus6 = formatISO(addDays(new Date(), 6), { representation: "date" });
   // const plus7 = formatISO(addDays(new Date(), 7), { representation: "date" });
-  const plus8 = formatISO(addDays(new Date(), 8), { representation: "date" });
+  // const plus8 = formatISO(addDays(new Date(), 8), { representation: "date" });
   const [selectedRange, setSelectedRange] = useState<DateRange>([addDays(new Date(), 5), undefined]);
   const [firstDate, setFirstDate] = useState(new Date());
   const occupancies: Map<string, OccupancySlot<{ additionalData: string }>> = new Map([
-    ["2025-05-08", { allDay: { key: "0196a9b9-0435-712b-b5b2-c1892dcdaabe", color: "#e85f5f" } }],
+    [plus3, { allDay: { key: "0196a9b9-0435-712b-b5b2-c1892dcdaabe", color: "#e85f5f" } }],
     [
-      "2025-05-09",
+      plus4,
       {
         forenoon: { key: "55441c4b-1e68-4f9b-9141-5658f14d411c", color: "#e85f5f" },
         afternoon: { key: "9060b84c-c09a-44de-8ad7-d0d908d1d5ea", color: "#0061ff" },
       },
     ],
     [
-      "2025-05-18",
+      plus5,
       {
         forenoon: {
           key: "55441c4b-1e68-4f9b-9141-5658f14d411c",
@@ -55,7 +55,7 @@ function ExampleApp() {
         occupancyOfDate={(date: Date) => occupancies.get(formatISO(date, { representation: "date" }))}
         // disableDate={(date) => addDays(date, 1) <= new Date()}
         // onDateClick={console.log}
-        getDateHref={(date) => `https://google.ch/${formatISO(date)}`}
+        getDateHref={(date) => `https://www.onthisday.com/day/${format(date, "MMMM/d")}`}
         hrefTarget="_blank"
         // onOccupancyClick={console.log}
         // selectedRange={selectedRange}

@@ -1,10 +1,16 @@
 import { addMonths, eachMonthOfInterval, formatISO } from "date-fns";
+import { useMemo } from "react";
 import type { CalendarBaseProps } from "./Calendar";
 import { CalendarMonth } from "./CalendarMonth";
 
 type YearCalendarProps<O> = CalendarBaseProps<O>;
 
 export function YearCalendar<O>(props: YearCalendarProps<O>) {
+  const months = useMemo(
+    () => eachMonthOfInterval({ start: props.firstDate, end: addMonths(props.firstDate, 11) }),
+    [props.firstDate],
+  );
+
   return (
     <div className="year-calendar">
       <header className="month">
@@ -16,7 +22,7 @@ export function YearCalendar<O>(props: YearCalendarProps<O>) {
         ))}
       </header>
 
-      {eachMonthOfInterval({ start: props.firstDate, end: addMonths(props.firstDate, 11) }).map((date) => {
+      {months.map((date) => {
         const isoDate = formatISO(date, { representation: "date" });
         return <CalendarMonth by="day" isoDate={isoDate} key={isoDate} {...props} />;
       })}

@@ -9,42 +9,46 @@ import {
   startOfMonth,
 } from "date-fns";
 import { use, useMemo } from "react";
-import { formatMonth, formattedWeekdays, narrowFormattedWeekdays } from "../helper/format";
+import { formatMonth, formattedWeekdays } from "../helper/format";
 import type { CalendarBaseProps } from "./Calendar";
 import { CalendarDate, type CalendarDateProps } from "./CalendarDate";
 import { CalendarStateContext, type DateRange } from "./CalendarStateContext";
 
 const isSelected = (date: Date, [start, end]: DateRange = [undefined, undefined]) => {
-  return !!start && (isSameDay(date, start) || (!!end && isWithinInterval(date, { start, end })));
+  if (!start) return false;
+
+  return isSameDay(date, start) || (!!end && isWithinInterval(date, { start, end }))
 };
 
 const isHovered = (date: Date, [start, end]: DateRange = [undefined, undefined], hovered?: Date) => {
   if (!hovered) return false;
   if (start && !end) return isWithinInterval(date, { start, end: hovered });
+  // if (start && end) return isSameDay(date, hovered) || isWithinInterval(date, { start, end });
 
   return isSameDay(date, hovered);
 };
 
 type CalendarMonthProps<O> = CalendarBaseProps<O> & {
-  isoDate: string;
+  isoDate?: string;
+  date?: Date;
   by: "week" | "day";
 };
 
 export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
-  const { mode, isoDate, by, occupancyOfDate, disableDate, highlightWeekends, renderOccupancyPopover } = props;
+  const { mode, isoDate, date, by, occupancyOfDate, disableDate, highlightWeekends, renderOccupancyPopover } = props;
   const { hoveredDate, selectedRange, handleSetHoveredDate, toggleSelectionRange } = use(CalendarStateContext);
-  const monthStart = startOfMonth(parseISO(isoDate));
+  const monthStart = useMemo(() => {
+    if (date) return startOfMonth(date);
+    return startOfMonth(parseISO(isoDate!));
+  }, [isoDate, date]);
   const monthStartsAfter = (getDay(monthStart) + 6) % 7;
   const daysInMonth = useMemo(
     () => eachDayOfInterval({ start: monthStart, end: endOfMonth(monthStart) }),
     [monthStart],
   );
-
-  const getCommonCalendarDateProps = (date: Date): CalendarDateProps<O> => {
-    const isoDate = formatISO(date, { representation: "date" });
-
-    return {
-      isoDate,
+  const getCommonCalendarDateProps = (date: Date): CalendarDateProps<O> => ({
+      date,
+      isoDate: formatISO(date, { representation: "date" }),
       disabled: disableDate?.(date),
       isWeekend: highlightWeekends && !(date.getDay() % 6),
       occupancySlot: occupancyOfDate?.(date),
@@ -61,12 +65,11 @@ export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
         ? {
             isInHoveredRange: isHovered(date, selectedRange, hoveredDate),
             isInSelectedRange: isSelected(date, selectedRange),
-            onClick: () => toggleSelectionRange(date),
+            onClick: toggleSelectionRange,
             onHoverChange: handleSetHoveredDate,
           }
         : {}),
-    };
-  };
+  });
 
   return (
     <div className="month">
@@ -86,25 +89,27 @@ export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
           <div className="dates">
             {!!monthStartsAfter && <div style={{ gridColumn: `span ${monthStartsAfter}` }} />}
 
-            {daysInMonth.map((date) => (
-              <CalendarDate<O>
-                key={formatISO(date, { representation: "date" })}
-                {...getCommonCalendarDateProps(date)}
-              />
-            ))}
+            {daysInMonth.map((date) => {
+              const calendarDateProps = getCommonCalendarDateProps(date);
+              return <CalendarDate<O> key={calendarDateProps.isoDate} {...calendarDateProps} />;
+            })}
           </div>
         </>
       ) : (
         <>
           <div className="month-label">{formatMonth(monthStart)}</div>
 
-          {daysInMonth.map((date) => (
-            <CalendarDate
-              key={formatISO(date, { representation: "date" })}
-              renderLabel={() => narrowFormattedWeekdays[(getDay(date) + 6) % 7]}
-              {...getCommonCalendarDateProps(date)}
-            />
-          ))}
+          {daysInMonth.map((date) => {
+            const calendarDateProps = getCommonCalendarDateProps(date);
+
+            return (
+              <CalendarDate
+                key={calendarDateProps.isoDate}
+                renderLabel={() => formattedWeekdays[(getDay(date) + 6) % 7]}
+                {...calendarDateProps}
+              />
+            );
+          })}
         </>
       )}
     </div>

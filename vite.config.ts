@@ -9,7 +9,7 @@ export default defineConfig({
     dts({
       tsconfigPath: "tsconfig.app.json",
       exclude: ["src/example.tsx", "src/ExampleApp.tsx"],
-      bundleTypes: true,
+      bundleTypes: false,
     }),
   ],
   build: {

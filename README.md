@@ -6,7 +6,7 @@ An occupancy calendar used by HeimV project.
 
 ## Features
 
-- Full an halfday occupancies 
+- Full and half-day occupancies
 - Custom occupancy popovers
 - Date range selection
 - Different view modes
@@ -88,9 +88,9 @@ const occupancies: Map<string, OccupancySlot<{ additionalData: string }>> = new 
 | firstDate              | `Date`                                   | The date from where the calendar begins                                | current date |
 | mode                   | `"view"` \| `"interactive"` \| `"range"` | Represents the calendar's mode                                         | `"view"`     |
 | viewMode               | `"months"` \| `"year"`                   | The current visual display mode of the calendar                        | `"months"`   |
-| visibleMonth           | `number`                                 | Defines how many months should be displayed (only for `"months"` view) | `8`          |
+| visibleMonth           | `number`                                 | Defines how many months should be displayed (only for `"months"` view) | `8`            |
 | defaultColor           | `string`                                 | The default color for occupancies                                      | `#e85f5f`    |
-| highlightWeekends      | `boolean`                                | Defines wether to visually highlight the dates on the weekends         | `true`       |
+| highlightWeekends      | `boolean`                                | Defines whether to visually highlight weekend dates                    | `true`         |
 | occupancyOfDate        | `(Date) => OccupancySlot \| undefined`   | A function that returns the occupancy slot of a date            | —            |
 | disableDate            | `(date: Date) => boolean`                | Function to determine if a date should be disabled                     | —            |
 | renderOccupancyPopover | `(occupancy: Occupancy<O>) => ReactNode` | Render function for the occupancy popover                              | —            |
@@ -105,18 +105,18 @@ It adds the following Properties to `Calendar` component:
 | ---------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | onOccupancyClick | `(occupancy: Occupancy<O>) => void` | Callback when an occupancy is clicked                                                                      |
 | onDateClick      | `(date: Date) => void`              | Callback when a date is clicked                                                                            |
-| getDateHref      | `(date: Date) => string`            | Function to resolve a href based on the given date. When applied all dates will be turned into `<a>` Tags. |
+| getDateHref      | `(date: Date) => string`            | Function to resolve an href for the given date. When applied, all dates render as `<a>` tags.             |
 | hrefTarget       | `string`                            | Sets the target attribute of the HTMLAnchorElement                                                         |
 
 #### Mode `range`
 
-The `range` mode allows the user the select date range inside the calendar.
+The `range` mode allows the user to select a date range inside the calendar.
 
 It adds the following Properties to `Calendar` component:
 
 | Property      | Type                         | Description                                                             |
 | ------------- | ---------------------------- | ----------------------------------------------------------------------- |
-| onSelectRange | `(range: DateRange) => void` | Callback triggered when eather start or end date of a range is selected |
+| onSelectRange | `(range: DateRange) => void` | Callback triggered when either start or end date of a range is selected |
 | selectedRange | `DateRange`                  | The currently selected date range                                       |
 
 ##### Example

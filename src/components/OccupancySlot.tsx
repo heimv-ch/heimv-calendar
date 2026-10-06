@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { OccupancySlot as OccupancySlotType, Occupancy as OccupancyType } from "../model/occupancy";
-import { Occupancy } from "./Occupancy";
+import { CalendarOccupancy } from "./CalendarOccupancy";
 
 type OccupancySlotProps<O> = {
   occupancySlot: OccupancySlotType<O>;
@@ -16,29 +16,14 @@ export function OccupancySlot<O>({
   return (
     <>
       {allDay ? (
-        <Occupancy
-          occupancy={allDay}
-          type="allDay"
-          onClick={onClick ? () => onClick(allDay) : undefined}
-          renderPopover={renderPopover}
-        />
+        <CalendarOccupancy occupancy={allDay} type="allDay" onClick={onClick} renderPopover={renderPopover} />
       ) : (
         <>
           {forenoon && (
-            <Occupancy
-              occupancy={forenoon}
-              type="forenoon"
-              onClick={onClick ? () => onClick(forenoon) : undefined}
-              renderPopover={renderPopover}
-            />
+            <CalendarOccupancy occupancy={forenoon} type="forenoon" onClick={onClick} renderPopover={renderPopover} />
           )}
           {afternoon && (
-            <Occupancy
-              occupancy={afternoon}
-              type="afternoon"
-              onClick={onClick ? () => onClick?.(afternoon) : undefined}
-              renderPopover={renderPopover}
-            />
+            <CalendarOccupancy occupancy={afternoon} type="afternoon" onClick={onClick} renderPopover={renderPopover} />
           )}
         </>
       )}

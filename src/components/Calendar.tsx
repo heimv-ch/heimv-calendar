@@ -41,38 +41,31 @@ export type CalendarProps<M extends CalendarMode, O> = CalendarBaseProps<O> & {
   visibleMonth?: number;
 } & CalendarModeProps<O>;
 
-export function Calendar<O, M extends CalendarMode = "view">(props: CalendarProps<M, O>) {
-  const {
+export function Calendar<O, M extends CalendarMode = "view">({
     viewMode = CalendarViewMode.months,
     visibleMonth,
     firstDate = new Date(),
     highlightWeekends = true,
     defaultColor,
-    ...calendarBaseProps
-  } = props;
-
-  const commonCalendarProps = { firstDate, highlightWeekends, ...calendarBaseProps };
-
-  const renderCalendar = () => {
-    switch (viewMode) {
-      case CalendarViewMode.months:
-        return <MonthsCalendar {...commonCalendarProps} visibleMonths={visibleMonth} />;
-      case CalendarViewMode.year:
-        return <YearCalendar {...commonCalendarProps} />;
-      default:
-        break;
-    }
-  };
-
+    mode = "view" as M,
+    ...rest
+  }: CalendarProps<M, O>) {
+  const selectedRange = (mode === "range" && "selectedRange" in rest) ? rest.selectedRange : undefined;
+  const onSelectRange = (mode === "range" && "onSelectRange" in rest) ? rest.onSelectRange : undefined;
+  
   return (
     <CalendarStateProvider
-      selectedRange={props.mode === "range" ? (props as CalendarRangeSelectProps).selectedRange : undefined}
-      setSelectedRange={props.mode === "range" ? (props as CalendarRangeSelectProps).onSelectRange : undefined}
+      selectedRange={mode === "range" ? selectedRange : undefined}
+      setSelectedRange={mode === "range" ? onSelectRange : undefined}
       defaultColor={defaultColor}
     >
-      <div className="heimv-calendar">{renderCalendar()}</div>
+      <div className="heimv-calendar">
+        {viewMode === CalendarViewMode.months ? (
+          <MonthsCalendar {...{ firstDate, highlightWeekends, mode, ...rest}} visibleMonths={visibleMonth} />
+        ) : (
+          <YearCalendar {...{ firstDate, highlightWeekends, mode, ...rest}} />
+        )}
+      </div>
     </CalendarStateProvider>
   );
 }
-
-Calendar.defaultProps = { mode: "view", firstDate: new Date() };

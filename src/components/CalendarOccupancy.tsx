@@ -21,17 +21,18 @@ export function CalendarOccupancy<O>({ type, occupancy, renderPopover, onClick }
   const hasPopover = !!renderPopover;
   const isInteractive = hasPopover || !!onClick;
   const { defaultColor } = use(CalendarStateContext);
-  const middleware = useMemo(() => [offset(8), flip(), autoPlacement()], []);
+  const middleware = useMemo(() => [offset(4), flip(), autoPlacement({ allowedPlacements: ["bottom", "top"] })], []);
 
   const { refs, context, floatingStyles } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
+    placement: "top",
     middleware,
   });
 
   const hover = useHover(context, {
     enabled: hasPopover,
-    move: false,
+    // move: false,
     restMs: 100,
     handleClose: safePolygon({ blockPointerEvents: false }),
   });

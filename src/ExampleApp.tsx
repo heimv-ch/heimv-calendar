@@ -1,4 +1,4 @@
-import { addDays, addMonths, format, formatISO, subDays, subMonths } from "date-fns";
+import { addDays, addMonths, format, formatISO, subMonths } from "date-fns";
 import { useState } from "react";
 import { Calendar, CalendarViewMode } from "./components/Calendar";
 import type { DateRange } from "./components/CalendarStateContext";
@@ -14,15 +14,15 @@ function ExampleApp() {
   // const plus6 = formatISO(addDays(new Date(), 6), { representation: "date" });
   // const plus7 = formatISO(addDays(new Date(), 7), { representation: "date" });
   // const plus8 = formatISO(addDays(new Date(), 8), { representation: "date" });
-  const [selectedRange, setSelectedRange] = useState<DateRange>([addDays(new Date(), 5), undefined]);
+  // const [selectedRange, setSelectedRange] = useState<DateRange>([addDays(new Date(), 5), undefined]);
   const [firstDate, setFirstDate] = useState(new Date());
   const occupancies: Map<string, OccupancySlot<{ additionalData: string }>> = new Map([
-    [plus3, { allDay: { key: "0196a9b9-0435-712b-b5b2-c1892dcdaabe", color: "#e85f5f" } }],
+    [plus3, { allDay: { key: "0196a9b9-0435-712b-b5b2-c1892dcdaabe", color: "#e85f5f", amount: 2 } }],
     [
       plus4,
       {
-        forenoon: { key: "55441c4b-1e68-4f9b-9141-5658f14d411c", color: "#e85f5f" },
-        afternoon: { key: "9060b84c-c09a-44de-8ad7-d0d908d1d5ea", color: "#0061ff" },
+        forenoon: { key: "55441c4b-1e68-4f9b-9141-5658f14d411c", color: "#e85f5f", amount: 2 },
+        afternoon: { key: "9060b84c-c09a-44de-8ad7-d0d908d1d5ea", color: "#0061ff", amount: 2 },
       },
     ],
     [

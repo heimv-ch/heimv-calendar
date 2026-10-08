@@ -6,9 +6,7 @@
   },
   "customizations": {
     "vscode": {
-      "extensions": [
-        "biomejs.biome"
-      ]
+      "extensions": ["biomejs.biome"]
     }
   },
   "postCreateCommand": "pnpm install"

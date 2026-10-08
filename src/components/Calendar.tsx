@@ -42,17 +42,17 @@ export type CalendarProps<M extends CalendarMode, O> = CalendarBaseProps<O> & {
 } & CalendarModeProps<O>;
 
 export function Calendar<O, M extends CalendarMode = "view">({
-    viewMode = CalendarViewMode.months,
-    visibleMonth,
-    firstDate = new Date(),
-    highlightWeekends = true,
-    defaultColor,
-    mode = "view" as M,
-    ...rest
-  }: CalendarProps<M, O>) {
-  const selectedRange = (mode === "range" && "selectedRange" in rest) ? rest.selectedRange : undefined;
-  const onSelectRange = (mode === "range" && "onSelectRange" in rest) ? rest.onSelectRange : undefined;
-  
+  viewMode = CalendarViewMode.months,
+  visibleMonth,
+  firstDate = new Date(),
+  highlightWeekends = true,
+  defaultColor,
+  mode = "view" as M,
+  ...rest
+}: CalendarProps<M, O>) {
+  const selectedRange = mode === "range" && "selectedRange" in rest ? rest.selectedRange : undefined;
+  const onSelectRange = mode === "range" && "onSelectRange" in rest ? rest.onSelectRange : undefined;
+
   return (
     <CalendarStateProvider
       selectedRange={mode === "range" ? selectedRange : undefined}
@@ -61,9 +61,9 @@ export function Calendar<O, M extends CalendarMode = "view">({
     >
       <div className="heimv-calendar">
         {viewMode === CalendarViewMode.months ? (
-          <MonthsCalendar {...{ firstDate, highlightWeekends, mode, ...rest}} visibleMonths={visibleMonth} />
+          <MonthsCalendar {...{ firstDate, highlightWeekends, mode, ...rest }} visibleMonths={visibleMonth} />
         ) : (
-          <YearCalendar {...{ firstDate, highlightWeekends, mode, ...rest}} />
+          <YearCalendar {...{ firstDate, highlightWeekends, mode, ...rest }} />
         )}
       </div>
     </CalendarStateProvider>

@@ -17,7 +17,7 @@ export type CalendarDateProps<O> = {
   onOccupancyClick?: (occupancy: Occupancy<O>) => void;
   occupancySlot?: OccupancySlot<O>;
   renderOccupancyPopover?: (occupancy: Occupancy<O>) => ReactNode;
-  isoDate?: string; 
+  isoDate?: string;
   date?: Date;
 };
 
@@ -37,8 +37,10 @@ function _CalendarDate<O>({
   onOccupancyClick,
   renderOccupancyPopover,
 }: CalendarDateProps<O>) {
-  date = date ?? (isoDate ? parseISO(isoDate) : date!);
-  isoDate = isoDate ?? formatISO(date, { representation: "date" })
+  date = date ?? (isoDate ? parseISO(isoDate) : date);
+  isoDate = isoDate ?? (date && formatISO(date, { representation: "date" }));
+
+  if (!date) throw "no date given";
 
   const isToday = isSameDay(date, new Date());
   const isInteractive = (!!onClick || !!href || !!onOccupancyClick) && !isInSelectedRange && !disabled;

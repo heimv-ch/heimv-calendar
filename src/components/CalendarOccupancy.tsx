@@ -1,4 +1,13 @@
-import { autoPlacement, flip, offset, safePolygon, useFloating, useFocus, useHover, useInteractions } from "@floating-ui/react";
+import {
+  autoPlacement,
+  flip,
+  offset,
+  safePolygon,
+  useFloating,
+  useFocus,
+  useHover,
+  useInteractions,
+} from "@floating-ui/react";
 import { type ReactNode, use, useCallback, useMemo, useState } from "react";
 import type { OccupancySlot, Occupancy as OccupancyType } from "../model/occupancy";
 import { CalendarStateContext } from "./CalendarStateContext";

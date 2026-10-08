@@ -17,7 +17,7 @@ import { CalendarStateContext, type DateRange } from "./CalendarStateContext";
 const isSelected = (date: Date, [start, end]: DateRange = [undefined, undefined]) => {
   if (!start) return false;
 
-  return isSameDay(date, start) || (!!end && isWithinInterval(date, { start, end }))
+  return isSameDay(date, start) || (!!end && isWithinInterval(date, { start, end }));
 };
 
 const isHovered = (date: Date, [start, end]: DateRange = [undefined, undefined], hovered?: Date) => {
@@ -39,7 +39,9 @@ export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
   const { hoveredDate, selectedRange, handleSetHoveredDate, toggleSelectionRange } = use(CalendarStateContext);
   const monthStart = useMemo(() => {
     if (date) return startOfMonth(date);
-    return startOfMonth(parseISO(isoDate!));
+    if (isoDate) return startOfMonth(parseISO(isoDate));
+
+    throw "No date given";
   }, [isoDate, date]);
   const monthStartsAfter = (getDay(monthStart) + 6) % 7;
   const daysInMonth = useMemo(
@@ -47,28 +49,28 @@ export function CalendarMonth<O>(props: CalendarMonthProps<O>) {
     [monthStart],
   );
   const getCommonCalendarDateProps = (date: Date): CalendarDateProps<O> => ({
-      date,
-      isoDate: formatISO(date, { representation: "date" }),
-      disabled: disableDate?.(date),
-      isWeekend: highlightWeekends && !(date.getDay() % 6),
-      occupancySlot: occupancyOfDate?.(date),
-      renderOccupancyPopover: renderOccupancyPopover,
-      ...(mode === "interactive"
-        ? {
-            onClick: props.onDateClick,
-            href: props.getDateHref?.(date),
-            hrefTarget: props.hrefTarget,
-            onOccupancyClick: props.onOccupancyClick,
-          }
-        : {}),
-      ...(mode === "range"
-        ? {
-            isInHoveredRange: isHovered(date, selectedRange, hoveredDate),
-            isInSelectedRange: isSelected(date, selectedRange),
-            onClick: toggleSelectionRange,
-            onHoverChange: handleSetHoveredDate,
-          }
-        : {}),
+    date,
+    isoDate: formatISO(date, { representation: "date" }),
+    disabled: disableDate?.(date),
+    isWeekend: highlightWeekends && !(date.getDay() % 6),
+    occupancySlot: occupancyOfDate?.(date),
+    renderOccupancyPopover: renderOccupancyPopover,
+    ...(mode === "interactive"
+      ? {
+          onClick: props.onDateClick,
+          href: props.getDateHref?.(date),
+          hrefTarget: props.hrefTarget,
+          onOccupancyClick: props.onOccupancyClick,
+        }
+      : {}),
+    ...(mode === "range"
+      ? {
+          isInHoveredRange: isHovered(date, selectedRange, hoveredDate),
+          isInSelectedRange: isSelected(date, selectedRange),
+          onClick: toggleSelectionRange,
+          onHoverChange: handleSetHoveredDate,
+        }
+      : {}),
   });
 
   return (

@@ -206,6 +206,11 @@
     }
 
     &:not(.disabled) {
+      &:hover,
+      &.hovered {
+        background-color: var(--calendar-date-hovered-color);
+      }
+
       svg {
         cursor: pointer;
 
@@ -215,13 +220,8 @@
         }
       }
 
-      &.hovered,
       &.selected {
         background-color: var(--calendar-date-selected-color);
-
-        &:hover {
-          background-color: var(--calendar-date-hovered-color);
-        }
 
         span.date-label {
           color: white;
